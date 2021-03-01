@@ -1,5 +1,6 @@
 package simulator.model;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import simulator.misc.Vector2D;
 
@@ -16,6 +17,15 @@ public class Body {
         this.pos = pos;
         this.mass = mass;
     }
+
+    //Constructor que he hecho por si hiciera falta para leer un body del json
+    /*public Body(JSONObject obj) {
+        this.id = obj.getString("id");
+        this.mass = obj.getDouble("mass");
+        this.vel = new Vector2D(obj.getJSONArray("v").getDouble(0), obj.getJSONArray("v").getDouble(1));
+        this.pos = new Vector2D(obj.getJSONArray("p").getDouble(0), obj.getJSONArray("p").getDouble(1));
+        this.force = new Vector2D(obj.getJSONArray("f").getDouble(0), obj.getJSONArray("f").getDouble(1));
+    }*/
 
     public void move(double t) {
         Vector2D ace;
@@ -69,5 +79,19 @@ public class Body {
 
     public String toString() {
         return getState().toString();
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+    public boolean equalsEpsilon(Body b2, double eps) {
+
+        return Math.abs(mass - b2.getMass()) <= eps &&
+                pos.distanceTo(b2.getPos()) <= eps &&
+                vel.distanceTo(b2.getVel()) <= eps &&
+                force.distanceTo(b2.getForce()) <= eps;
+
     }
 }
