@@ -18,14 +18,14 @@ public class Body {
         this.mass = mass;
     }
 
-    //Constructor que he hecho por si hiciera falta para leer un body del json
-    /*public Body(JSONObject obj) {
+
+    public Body(JSONObject obj) {
         this.id = obj.getString("id");
         this.mass = obj.getDouble("mass");
         this.vel = new Vector2D(obj.getJSONArray("v").getDouble(0), obj.getJSONArray("v").getDouble(1));
         this.pos = new Vector2D(obj.getJSONArray("p").getDouble(0), obj.getJSONArray("p").getDouble(1));
         this.force = new Vector2D(obj.getJSONArray("f").getDouble(0), obj.getJSONArray("f").getDouble(1));
-    }*/
+    }
 
     public void move(double t) {
         Vector2D ace;

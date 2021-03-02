@@ -34,8 +34,8 @@ public class EpsilonEqualStates implements StateComparator {
             while (i<s1.length() && iguales) {
 
                 // No estoy seguro de que esto se pueda hacer. Si no funciona, usar el constructor de Body(JSONObject) que esta comentado.
-                aux1 = (Body)l1.get(i);
-                aux2 = (Body)l2.get(i);
+                aux1 = new Body(l1.getJSONObject(i));
+                aux2 = new Body(l2.getJSONObject(i));
 
                 if (!aux1.equals(aux2) || !aux1.equalsEpsilon(aux2, eps))
                     iguales = false;

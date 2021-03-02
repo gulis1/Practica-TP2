@@ -1,3 +1,4 @@
-.idea
+out/
+.idea/
 Practica-TP2.iml
-bin
+bin/
