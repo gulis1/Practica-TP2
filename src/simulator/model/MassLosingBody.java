@@ -1,5 +1,6 @@
 package simulator.model;
 
+import org.json.JSONObject;
 import simulator.misc.Vector2D;
 
 public class MassLosingBody extends Body{
@@ -12,6 +13,13 @@ public class MassLosingBody extends Body{
         this.lossFactor= lossFactor;
         this.lossFrequency = lossFrequency;
         this.c = 0.0d;
+
+    }
+
+    public MassLosingBody(JSONObject obj) {
+       super(obj);
+       this.lossFrequency = obj.getJSONObject("data").getDouble("freq");
+       this.lossFrequency = obj.getJSONObject("data").getDouble("factor");
 
     }
 

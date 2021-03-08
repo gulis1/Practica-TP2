@@ -1,6 +1,7 @@
 package simulator.model;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import simulator.misc.Vector2D;
 
@@ -19,12 +20,13 @@ public class Body {
     }
 
 
-    public Body(JSONObject obj) {
-        this.id = obj.getString("id");
-        this.mass = obj.getDouble("mass");
-        this.vel = new Vector2D(obj.getJSONArray("v").getDouble(0), obj.getJSONArray("v").getDouble(1));
-        this.pos = new Vector2D(obj.getJSONArray("p").getDouble(0), obj.getJSONArray("p").getDouble(1));
-        this.force = new Vector2D(obj.getJSONArray("f").getDouble(0), obj.getJSONArray("f").getDouble(1));
+    public Body(JSONObject obj) throws JSONException{
+
+        this.id = obj.getJSONObject("data").getString("id");
+        this.mass = obj.getJSONObject("data").getDouble("mass");
+        this.vel = new Vector2D(obj.getJSONObject("data").getJSONArray("v").getDouble(0), obj.getJSONObject("data").getJSONArray("v").getDouble(1));
+        this.pos = new Vector2D(obj.getJSONObject("data").getJSONArray("p").getDouble(0), obj.getJSONObject("data").getJSONArray("p").getDouble(1));
+        this.force = new Vector2D(obj.getJSONObject("data").getJSONArray("f").getDouble(0), obj.getJSONObject("data").getJSONArray("f").getDouble(1));
     }
 
     public void move(double t) {

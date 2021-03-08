@@ -1,12 +1,22 @@
 package simulator.model;
 
+import org.json.JSONObject;
 import simulator.misc.Vector2D;
 
 import java.util.List;
 
 public class NewtonUniversalGravitation implements ForceLaws {
 
-    final double G=6.67E-11;
+    private double G;
+
+    public NewtonUniversalGravitation(double pyra) {
+        G = pyra;
+    }
+
+    public NewtonUniversalGravitation(JSONObject mythraNoEsPelirrojaPeroNoPuedoPonerAPyraSinElla) {
+        G = mythraNoEsPelirrojaPeroNoPuedoPonerAPyraSinElla.getJSONObject("data").getDouble("G");
+    }
+
 
     @Override
     public void apply(List<Body> bs) {

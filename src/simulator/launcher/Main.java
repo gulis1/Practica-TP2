@@ -9,10 +9,16 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.json.JSONObject;
 
+import simulator.control.Controller;
 import simulator.control.StateComparator;
-import simulator.factories.Factory;
+import simulator.factories.*;
 import simulator.model.Body;
 import simulator.model.ForceLaws;
+import simulator.model.NewtonUniversalGravitation;
+import simulator.model.PhysicsSimulator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
@@ -35,11 +41,26 @@ public class Main {
 	private static Factory<StateComparator> _stateComparatorFactory;
 
 	private static void init() {
-		// TODO initialize the bodies factory
+		//  initialize the bodies factory
+			ArrayList<Builder<Body>> bodyBuilders = new ArrayList<>();
+			bodyBuilders.add(new BasicBodyBuilder());
+			bodyBuilders.add(new MassLosingBodyBuilder());
+			_bodyFactory = new BuilderBasedFactory<Body>(bodyBuilders);
 
-		// TODO initialize the force laws factory
+		//  initialize the force laws factory
 
-		// TODO initialize the state comparator
+		ArrayList<Builder<ForceLaws>> forceBuilders = new ArrayList<>();
+		forceBuilders.add(new NewtonUniversalGravitationBuilder());
+		forceBuilders.add(new MovingTowardsFixedPointBuilder());
+		forceBuilders.add(new NoForceBuilder());
+		forceBuilders.add(new FartLawBuilder());
+		_forceLawsFactory = new BuilderBasedFactory<ForceLaws>(forceBuilders);
+
+		// initialize the state comparator
+		ArrayList<Builder<StateComparator>> compBuilders = new ArrayList<>();
+		compBuilders.add(new MassEqualStatesBuilder());
+		compBuilders.add(new EpsilonEqualStatesBuilder());
+		_stateComparatorFactory = new BuilderBasedFactory<StateComparator>(compBuilders);
 	}
 
 	private static void parseArgs(String[] args) {
@@ -89,8 +110,8 @@ public class Main {
 		// input file
 		cmdLineOptions.addOption(Option.builder("i").longOpt("input").hasArg().desc("Bodies JSON input file.").build());
 
-		// TODO add support for -o, -eo, and -s (add corresponding information to
-		// cmdLineOptions)
+		// TODO add support for -o, -eo, and -s (add corresponding information to cmdLineOptions)
+
 
 		// delta-time
 		cmdLineOptions.addOption(Option.builder("dt").longOpt("delta-time").hasArg()
@@ -212,7 +233,11 @@ public class Main {
 	}
 
 	private static void startBatchMode() throws Exception {
-		// TODO complete this method
+		// complete this method
+		PhysicsSimulator simulator = new PhysicsSimulator(_dtime, _forceLawsFactory.createInstance(_forceLawsInfo));
+		Controller controller = new Controller(simulator, _bodyFactory );
+		controller.run(5, null, null, _stateComparatorFactory.createInstance(_stateComparatorInfo));
+
 	}
 
 	private static void start(String[] args) throws Exception {

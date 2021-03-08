@@ -7,6 +7,10 @@ import java.util.Random;
 
 public class FartLaw implements ForceLaws {
 
+    public FartLaw() {
+
+    }
+
     @Override
     public void apply(List<Body> bs) {
         fart(bs);
