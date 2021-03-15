@@ -16,23 +16,23 @@ import java.util.List;
 
 public class Controller {
 
-    private PhysicsSimulator simulator;
+    private final PhysicsSimulator simulator;
 
-    private Factory<Body> fabriquita;
+    private final Factory<Body> factory;
 
-    public Controller(PhysicsSimulator xD, Factory<Body> Xd){
+    public Controller(PhysicsSimulator simulator, Factory<Body> bodyFactory){
 
-        this.simulator=xD;
-        this.fabriquita=Xd;
+        this.simulator=simulator;
+        this.factory=bodyFactory;
 
     }
 
     public void loadBodies(InputStream in) {
-        JSONObject jsonInupt = new JSONObject(new JSONTokener(in));
-        JSONArray listita = jsonInupt.getJSONArray("bodies");
+        JSONObject jsonInput = new JSONObject(new JSONTokener(in));
+        JSONArray lista = jsonInput.getJSONArray("bodies");
 
-        for (int i = 0; i<listita.length(); i++) {
-            simulator.addBody(fabriquita.createInstance(listita.getJSONObject(i)));
+        for (int i = 0; i<lista.length(); i++) {
+            simulator.addBody(factory.createInstance(lista.getJSONObject(i)));
         }
 
     }
@@ -52,7 +52,7 @@ public class Controller {
 
         }
 
-        if (cmp.equal(simulator.getState(),  new JSONObject(new JSONTokener(expOut))))
+        if (cmp.equal(simulator.getState(), new JSONObject(new JSONTokener(expOut))))
             System.out.println("SUUUUU");
         else
             System.out.println("NOP");

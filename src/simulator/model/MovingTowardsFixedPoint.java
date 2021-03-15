@@ -11,20 +11,20 @@ public class MovingTowardsFixedPoint implements ForceLaws {
     private Vector2D origen;
 
 
-    public MovingTowardsFixedPoint(double rias, Vector2D gremory) {
+    public MovingTowardsFixedPoint(double g, Vector2D origen) {
 
-        g = rias;
-        origen = new Vector2D(gremory);
+        g = g;
+        origen = new Vector2D(origen);
 
     }
 
-    public MovingTowardsFixedPoint(JSONObject mioNaruse) {
-        if (mioNaruse.has("g"))
-            g = mioNaruse.getJSONObject("data").getDouble("g");
+    public MovingTowardsFixedPoint(JSONObject object) {
+        if (object.has("g"))
+            g = object.getJSONObject("data").getDouble("g");
         else
             g = 6.67E-11;
 
-        origen = new Vector2D(mioNaruse.getJSONObject("data").getJSONArray("c").getDouble(0), mioNaruse.getJSONObject("data").getJSONArray("c").getDouble(1));
+        origen = new Vector2D(object.getJSONObject("data").getJSONArray("c").getDouble(0), object.getJSONObject("data").getJSONArray("c").getDouble(1));
     }
 
     @Override

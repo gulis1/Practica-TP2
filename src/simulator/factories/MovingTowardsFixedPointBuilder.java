@@ -10,9 +10,14 @@ import java.util.List;
 
 public class MovingTowardsFixedPointBuilder extends Builder<ForceLaws> {
 
+    public MovingTowardsFixedPointBuilder(){
+
+        typeTag="mtcp";
+        desc="Moving Towards Fixed Point";
+    }
 
     @Override
-    public ForceLaws createInstance(JSONObject info) {
+    public ForceLaws createTheInstance(JSONObject info) {
         MovingTowardsFixedPoint b = null;
 
         try {
@@ -31,8 +36,13 @@ public class MovingTowardsFixedPointBuilder extends Builder<ForceLaws> {
         return b;
     }
 
+
     @Override
-    public List<JSONObject> getInfo() {
-        return null;
+    protected JSONObject createData() {
+
+        return new JSONObject().put("g","Constante de gravedad").put("c","origen");
+
     }
+
+
 }

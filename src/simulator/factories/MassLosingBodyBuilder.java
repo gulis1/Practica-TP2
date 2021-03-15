@@ -9,8 +9,15 @@ import java.util.List;
 
 public class MassLosingBodyBuilder extends Builder<Body>{
 
+
+    public MassLosingBodyBuilder() {
+        typeTag="mlb";
+        desc="MassLosingBody";
+
+    }
+
     @Override
-    public Body createInstance(JSONObject info) {
+    public Body createTheInstance(JSONObject info) {
         MassLosingBody b = null;
 
         try {
@@ -30,8 +37,17 @@ public class MassLosingBodyBuilder extends Builder<Body>{
     }
 
     @Override
-    public List<JSONObject> getInfo() {
-        return null;
+    protected JSONObject createData() {
+        JSONObject b = super.createData();
+
+        b.put("id", "id del cuerpo");
+        b.put("p", "vector de posicion");
+        b.put("v", "vector de velocidad");
+        b.put("m", "masa");
+        b.put("freq", "frecuencia de perdida de masa");
+        b.put("facto", "factor de perdida de masa");
+
+        return b;
     }
 
 }

@@ -9,8 +9,15 @@ import simulator.model.ForceLaws;
 import java.util.List;
 
 public class FartLawBuilder extends Builder<ForceLaws> {
+
+    public FartLawBuilder() {
+
+        typeTag="fl";
+        desc="Fart Law";
+    }
+
     @Override
-    public ForceLaws createInstance(JSONObject info) {
+    public ForceLaws createTheInstance(JSONObject info) {
         FartLaw b = null;
 
         try {
@@ -29,8 +36,4 @@ public class FartLawBuilder extends Builder<ForceLaws> {
         return b;
     }
 
-    @Override
-    public List<JSONObject> getInfo() {
-        return null;
-    }
 }

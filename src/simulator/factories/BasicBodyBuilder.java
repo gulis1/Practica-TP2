@@ -8,28 +8,39 @@ import java.util.List;
 
 public class BasicBodyBuilder extends Builder<Body> {
 
+    public BasicBodyBuilder() {
+        typeTag = "basic";
+        desc = "Basic Body";
+    }
+
+
+
+
     @Override
-    public Body createInstance(JSONObject info) throws IllegalArgumentException {
+    public Body createTheInstance(JSONObject data) {
         Body b = null;
 
         try {
-            b = new Body(info);
+            b = new Body(data);
         }
 
         catch (JSONException e) {
 
-            if (e.getMessage() == "Null key.")
+            if (e.getMessage().equals("Null key."))
                 b = null;
             else
-                throw new IllegalArgumentException("Sad");
+                throw new IllegalArgumentException();
 
         }
 
         return b;
     }
 
+
     @Override
-    public List<JSONObject> getInfo() {
-        return null;
+    protected JSONObject createData() {
+
+      return new JSONObject().put("id","bl").put("p","vector de posicion").put("v","vector de velocidad").put("m","double de masa");
+
     }
 }

@@ -20,7 +20,7 @@ public class Body {
     }
 
 
-    public Body(JSONObject obj) throws JSONException{
+    public Body(JSONObject obj) throws JSONException {
 
         this.id = obj.getJSONObject("data").getString("id");
         this.mass = obj.getJSONObject("data").getDouble("mass");

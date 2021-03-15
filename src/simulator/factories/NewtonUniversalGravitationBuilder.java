@@ -9,9 +9,17 @@ import simulator.model.NewtonUniversalGravitation;
 import java.util.List;
 
 public class NewtonUniversalGravitationBuilder extends Builder<ForceLaws>{
-    @Override
 
-    public ForceLaws createInstance(JSONObject info) {
+
+    public  NewtonUniversalGravitationBuilder( ){
+
+        typeTag="nlug";
+        desc="Newton Universal Gravitation Law";
+
+
+    }
+    @Override
+    public ForceLaws createTheInstance(JSONObject info) {
         NewtonUniversalGravitation b = null;
 
         try {
@@ -31,7 +39,11 @@ public class NewtonUniversalGravitationBuilder extends Builder<ForceLaws>{
     }
 
     @Override
-    public List<JSONObject> getInfo() {
-        return null;
+    protected JSONObject createData() {
+
+        return new JSONObject().put("G","Constate de gravitacion");
+
     }
+
+
 }

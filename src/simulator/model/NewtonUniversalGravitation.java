@@ -9,12 +9,12 @@ public class NewtonUniversalGravitation implements ForceLaws {
 
     private double G;
 
-    public NewtonUniversalGravitation(double pyra) {
-        G = pyra;
+    public NewtonUniversalGravitation(double G) {
+        G = G;
     }
 
-    public NewtonUniversalGravitation(JSONObject mythraNoEsPelirrojaPeroNoPuedoPonerAPyraSinElla) {
-        G = mythraNoEsPelirrojaPeroNoPuedoPonerAPyraSinElla.getJSONObject("data").getDouble("G");
+    public NewtonUniversalGravitation(JSONObject object) {
+        G = object.getJSONObject("data").getDouble("G");
     }
 
 

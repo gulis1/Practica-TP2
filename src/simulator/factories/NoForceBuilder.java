@@ -9,8 +9,16 @@ import simulator.model.NoForce;
 import java.util.List;
 
 public class NoForceBuilder extends Builder<ForceLaws> {
+
+    public NoForceBuilder(){
+
+        typeTag="nf";
+        desc="No Force Law";
+    }
+
+
     @Override
-    public ForceLaws createInstance(JSONObject info) {
+    public ForceLaws createTheInstance(JSONObject info) {
         NoForce b = null;
 
         try {
@@ -29,8 +37,4 @@ public class NoForceBuilder extends Builder<ForceLaws> {
         return b;
     }
 
-    @Override
-    public List<JSONObject> getInfo() {
-        return null;
-    }
 }

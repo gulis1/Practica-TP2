@@ -9,8 +9,16 @@ import simulator.model.Body;
 import java.util.List;
 
 public class MassEqualStatesBuilder extends Builder<StateComparator> {
+
+    public MassEqualStatesBuilder(){
+
+        typeTag="masseq";
+        desc="Mass Equal States";
+
+    }
+
     @Override
-    public StateComparator createInstance(JSONObject info) {
+    public StateComparator createTheInstance(JSONObject info) {
         MassEqualStates b = null;
 
         try {
@@ -29,8 +37,5 @@ public class MassEqualStatesBuilder extends Builder<StateComparator> {
         return b;
     }
 
-    @Override
-    public List<JSONObject> getInfo() {
-        return null;
-    }
+
 }

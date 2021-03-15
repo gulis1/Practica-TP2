@@ -2,6 +2,7 @@ package simulator.factories;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BuilderBasedFactory<T> implements Factory<T> {
@@ -14,24 +15,32 @@ public class BuilderBasedFactory<T> implements Factory<T> {
     }
 
 
+
     @Override
     public T createInstance(JSONObject info) throws IllegalArgumentException {
-        T xD=null;
+        T instancia = null;
         int i = 0;
 
-        while(i < lista.size()) {
-            xD = lista.get(i).createInstance(info);
+        while(i < lista.size() && instancia == null) {
+            instancia = lista.get(i).createTheInstance(info);
             i++;
         }
 
-        if (xD==null)
+        if (instancia == null)
             throw new IllegalArgumentException();
 
-        return xD;
+        return instancia;
     }
 
     @Override
     public List<JSONObject> getInfo() {
-        return null;
+
+        ArrayList<JSONObject> list = new ArrayList<JSONObject>();
+
+        for (Builder<T> e : lista) {
+            list.add(e.getBuilderInfo());
+        }
+
+        return list;
     }
 }

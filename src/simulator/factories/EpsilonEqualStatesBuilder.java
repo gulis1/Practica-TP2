@@ -9,8 +9,15 @@ import simulator.model.Body;
 import java.util.List;
 
 public class EpsilonEqualStatesBuilder extends Builder<StateComparator>{
+
+    public  EpsilonEqualStatesBuilder(){
+
+        typeTag="epseq";
+        desc=" Epsislon Equal States";
+    }
+
     @Override
-    public StateComparator createInstance(JSONObject info) {
+    public StateComparator createTheInstance(JSONObject info) {
         EpsilonEqualStates b = null;
 
         try {
@@ -22,7 +29,7 @@ public class EpsilonEqualStatesBuilder extends Builder<StateComparator>{
             if (e.getMessage() == "Null key.")
                 b = null;
             else
-                throw new IllegalArgumentException("Sad");
+                throw new IllegalArgumentException();
 
         }
 
@@ -30,7 +37,7 @@ public class EpsilonEqualStatesBuilder extends Builder<StateComparator>{
     }
 
     @Override
-    public List<JSONObject> getInfo() {
-        return null;
+    protected JSONObject createData() {
+        return super.createData().put("eps", "epsilon");
     }
 }
