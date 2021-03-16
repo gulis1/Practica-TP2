@@ -24,7 +24,10 @@ public class MovingTowardsFixedPoint implements ForceLaws {
         else
             g = 9.81;
 
-        origen = new Vector2D(data.getJSONArray("c").getDouble(0), data.getJSONArray("c").getDouble(1));
+        if(data.has("c"))
+             origen = new Vector2D(data.getJSONArray("c").getDouble(0), data.getJSONArray("c").getDouble(1));
+        else
+            origen=new Vector2D();
     }
 
     @Override
@@ -36,7 +39,7 @@ public class MovingTowardsFixedPoint implements ForceLaws {
             coso = b;
             f = g * coso.mass;
             Vector2D r = coso.pos.minus(origen);
-            coso.addForce(r.direction().scale(f));
+            coso.addForce(r.direction().scale(-1d*f));
         }
     }
 

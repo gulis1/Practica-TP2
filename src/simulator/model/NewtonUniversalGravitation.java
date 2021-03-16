@@ -17,7 +17,7 @@ public class NewtonUniversalGravitation implements ForceLaws {
         if (data.has("G"))
             G = data.getDouble("G");
         else
-            G = 6.67E-5;
+            G = 6.67E-11;
     }
 
 
