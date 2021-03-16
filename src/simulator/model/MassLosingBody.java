@@ -16,10 +16,10 @@ public class MassLosingBody extends Body{
 
     }
 
-    public MassLosingBody(JSONObject obj) {
-       super(obj);
-       this.lossFrequency = obj.getJSONObject("data").getDouble("freq");
-       this.lossFrequency = obj.getJSONObject("data").getDouble("factor");
+    public MassLosingBody(JSONObject data) {
+       super(data);
+       this.lossFrequency = data.getDouble("freq");
+       this.lossFrequency = data.getDouble("factor");
 
     }
 

@@ -20,13 +20,13 @@ public class Body {
     }
 
 
-    public Body(JSONObject obj) throws JSONException {
+    public Body(JSONObject data) throws JSONException {
 
-        this.id = obj.getJSONObject("data").getString("id");
-        this.mass = obj.getJSONObject("data").getDouble("mass");
-        this.vel = new Vector2D(obj.getJSONObject("data").getJSONArray("v").getDouble(0), obj.getJSONObject("data").getJSONArray("v").getDouble(1));
-        this.pos = new Vector2D(obj.getJSONObject("data").getJSONArray("p").getDouble(0), obj.getJSONObject("data").getJSONArray("p").getDouble(1));
-        this.force = new Vector2D(obj.getJSONObject("data").getJSONArray("f").getDouble(0), obj.getJSONObject("data").getJSONArray("f").getDouble(1));
+        this.id = data.getString("id");
+        this.mass = data.getDouble("mass");
+        this.vel = new Vector2D(data.getJSONArray("v").getDouble(0), data.getJSONArray("v").getDouble(1));
+        this.pos = new Vector2D(data.getJSONArray("p").getDouble(0), data.getJSONArray("p").getDouble(1));
+        this.force = new Vector2D(data.getJSONArray("f").getDouble(0), data.getJSONArray("f").getDouble(1));
     }
 
     public void move(double t) {

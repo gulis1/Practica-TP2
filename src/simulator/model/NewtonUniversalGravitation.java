@@ -10,11 +10,11 @@ public class NewtonUniversalGravitation implements ForceLaws {
     private double G;
 
     public NewtonUniversalGravitation(double G) {
-        G = G;
+        this.G = G;
     }
 
-    public NewtonUniversalGravitation(JSONObject object) {
-        G = object.getJSONObject("data").getDouble("G");
+    public NewtonUniversalGravitation(JSONObject data) {
+        G = data.getDouble("G");
     }
 
 
