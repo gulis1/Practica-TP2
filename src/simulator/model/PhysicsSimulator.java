@@ -3,6 +3,7 @@ package simulator.model;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PhysicsSimulator {
@@ -17,6 +18,7 @@ public class PhysicsSimulator {
         this.dt=dt;
         this.law=law;
         t = 0.0d;
+        this.bs=new ArrayList<Body>();
 
     }
 

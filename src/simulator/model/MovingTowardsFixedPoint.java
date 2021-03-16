@@ -22,7 +22,7 @@ public class MovingTowardsFixedPoint implements ForceLaws {
         if (data.has("g"))
             g = data.getDouble("g");
         else
-            g = 6.67E-11;
+            g = 9.81;
 
         origen = new Vector2D(data.getJSONArray("c").getDouble(0), data.getJSONArray("c").getDouble(1));
     }

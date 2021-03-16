@@ -17,6 +17,7 @@ import simulator.model.ForceLaws;
 import simulator.model.NewtonUniversalGravitation;
 import simulator.model.PhysicsSimulator;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,7 @@ public class Main {
 	// default values for some parameters
 	//
 	private final static Double _dtimeDefaultValue = 2500.0;
+	private final static Integer _defaultSteps = 150;
 	private final static String _forceLawsDefaultValue = "nlug";
 	private final static String _stateComparatorDefaultValue = "epseq";
 
@@ -39,6 +41,10 @@ public class Main {
 	private static Factory<Body> _bodyFactory;
 	private static Factory<ForceLaws> _forceLawsFactory;
 	private static Factory<StateComparator> _stateComparatorFactory;
+
+	private static OutputStream out;
+	private static InputStream in;
+	private static int stepNum;
 
 	private static void init() {
 		//  initialize the bodies factory
@@ -82,6 +88,9 @@ public class Main {
 			parseDeltaTimeOption(line);
 			parseForceLawsOption(line);
 			parseStateComparatorOption(line);
+			parseStepsOption(line);
+			parseExpectedOutFileOption(line);
+			parseOutPutFileOption(line);
 
 			// if there are some remaining arguments, then something wrong is
 			// provided in the command line!
@@ -111,7 +120,12 @@ public class Main {
 		cmdLineOptions.addOption(Option.builder("i").longOpt("input").hasArg().desc("Bodies JSON input file.").build());
 
 		// TODO add support for -o, -eo, and -s (add corresponding information to cmdLineOptions)
+		cmdLineOptions.addOption(Option.builder("o").longOpt("output").hasArg().desc("Bodies JSON Output file.").build());
 
+		cmdLineOptions.addOption(Option.builder("s").longOpt("steps").hasArg()
+				.desc("An integer representing the number of steps  Default value: "
+						+ _defaultSteps + ".")
+				.build());
 
 		// delta-time
 		cmdLineOptions.addOption(Option.builder("dt").longOpt("delta-time").hasArg()
@@ -166,6 +180,17 @@ public class Main {
 		if (_inFile == null) {
 			throw new ParseException("In batch mode an input file of bodies is required");
 		}
+		else {
+			try {
+				in = new FileInputStream(new File(_inFile)) ;
+			} catch (FileNotFoundException e) {
+				System.out.println("archivo de bodies no encontrado");;
+			}
+		}
+
+
+
+
 	}
 
 	private static void parseDeltaTimeOption(CommandLine line) throws ParseException {
@@ -175,6 +200,41 @@ public class Main {
 			assert (_dtime > 0);
 		} catch (Exception e) {
 			throw new ParseException("Invalid delta-time value: " + dt);
+		}
+	}
+
+	//no sabemos que estampos haciendo la veda AIUAAAA.
+	private static void parseOutPutFileOption (CommandLine line) {
+
+		String o = line.getOptionValue("o");
+		if (o == null) {
+			out = System.out;
+		}
+		else {
+			try {
+				out = new FileOutputStream(new File(o));
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	//Sudamos un pelin.
+	private static void parseExpectedOutFileOption(CommandLine line) {
+		_inFile = line.getOptionValue("eo");
+		if (_inFile == null) {
+
+		}
+	}
+
+	//Aun no sabemos lo que estamos haciendo.
+	private static void parseStepsOption(CommandLine line) throws ParseException {
+		String s = line.getOptionValue("s", _defaultSteps.toString());
+		try {
+			stepNum = Integer.parseInt(s);
+			assert (stepNum > 0);
+		} catch (Exception e) {
+			throw new ParseException("Invalid Steps value: " + stepNum);
 		}
 	}
 
@@ -236,7 +296,9 @@ public class Main {
 		// complete this method
 		PhysicsSimulator simulator = new PhysicsSimulator(_dtime, _forceLawsFactory.createInstance(_forceLawsInfo));
 		Controller controller = new Controller(simulator, _bodyFactory );
-		controller.run(5, null, null, _stateComparatorFactory.createInstance(_stateComparatorInfo));
+
+		controller.loadBodies(in);
+		controller.run(stepNum, out, null, _stateComparatorFactory.createInstance(_stateComparatorInfo));
 
 	}
 

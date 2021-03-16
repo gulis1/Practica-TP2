@@ -14,7 +14,10 @@ public class NewtonUniversalGravitation implements ForceLaws {
     }
 
     public NewtonUniversalGravitation(JSONObject data) {
-        G = data.getDouble("G");
+        if (data.has("G"))
+            G = data.getDouble("G");
+        else
+            G = 6.67E-5;
     }
 
 
@@ -22,7 +25,7 @@ public class NewtonUniversalGravitation implements ForceLaws {
     public void apply(List<Body> bs) {
 
         for (int i = 0; i<bs.size(); i++) {
-            for (int j = i + 1; i<bs.size(); i++) {
+            for (int j = i + 1; j<bs.size(); j++) {
 
                 Vector2D r = bs.get(i).pos.minus(bs.get(j).pos);
 
@@ -30,8 +33,8 @@ public class NewtonUniversalGravitation implements ForceLaws {
 
                 Vector2D F = r.direction().scale(f);
 
-                bs.get(i).addForce(F);
-                bs.get(j).addForce(F.scale(-1.0d));
+                bs.get(i).addForce(F.scale(-1.0d));
+                bs.get(j).addForce(F);
 
 
             }

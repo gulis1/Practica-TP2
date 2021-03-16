@@ -8,7 +8,7 @@ import simulator.misc.Vector2D;
 public class Body {
 
     protected String id;
-    protected Vector2D vel, force, pos,ace;
+    protected Vector2D vel, force, pos;
     protected double mass;
 
     public Body(String id, Vector2D vel, Vector2D pos, double mass) {
@@ -23,10 +23,10 @@ public class Body {
     public Body(JSONObject data) throws JSONException {
 
         this.id = data.getString("id");
-        this.mass = data.getDouble("mass");
+        this.mass = data.getDouble("m");
         this.vel = new Vector2D(data.getJSONArray("v").getDouble(0), data.getJSONArray("v").getDouble(1));
         this.pos = new Vector2D(data.getJSONArray("p").getDouble(0), data.getJSONArray("p").getDouble(1));
-        this.force = new Vector2D(data.getJSONArray("f").getDouble(0), data.getJSONArray("f").getDouble(1));
+        this.force = new Vector2D();
     }
 
     public void move(double t) {

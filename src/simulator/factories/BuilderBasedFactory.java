@@ -22,7 +22,7 @@ public class BuilderBasedFactory<T> implements Factory<T> {
         int i = 0;
 
         while(i < lista.size() && instancia == null) {
-            instancia = lista.get(i).createTheInstance(info);
+            instancia = lista.get(i).createInstance(info);
             i++;
         }
 

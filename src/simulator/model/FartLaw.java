@@ -24,8 +24,8 @@ public class FartLaw implements ForceLaws {
 
         for (int i = 0; i<bs.size(); i++) {
             body = bs.get(i);
-            Vector2D f = new Vector2D(rng.nextDouble()*body.mass, rng.nextDouble()*body.mass);
-            bs.get(i).addForce(f.scale(-1.0d));
+            Vector2D f = new Vector2D(-1.0d +2.0d*rng.nextDouble(), -1.0d +2.0d*rng.nextDouble());
+            bs.get(i).addForce(f.scale(body.mass));
         }
     }
 }

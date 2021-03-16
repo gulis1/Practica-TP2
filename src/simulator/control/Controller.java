@@ -40,22 +40,30 @@ public class Controller {
 
     public void run(int n, OutputStream out, InputStream expOut, StateComparator cmp) {
 
+
+        JSONObject nombrependiente=new JSONObject();
+        JSONArray arraypendiente=new JSONArray();
+
         for (int i = 0; i<n; i++) {
             simulator.advance();
-            try {
-                out.write(simulator.getState().toString().getBytes());
-            }
-
-            catch (Exception s) {
-                System.out.println("No va");
-            }
-
+            arraypendiente.put(simulator.getState());
         }
 
-        if (cmp.equal(simulator.getState(), new JSONObject(new JSONTokener(expOut))))
+        nombrependiente.put("states",arraypendiente);
+
+        try {
+            out.write(nombrependiente.toString().getBytes());
+        }
+
+        catch (Exception s) {
+            System.out.println("No va");
+        }
+
+
+        /*if (cmp.equal(simulator.getState(), new JSONObject(new JSONTokener(expOut))))
             System.out.println("SUUUUU");
         else
-            System.out.println("NOP");
+            System.out.println("NOP");*/
 
 
     }

@@ -13,8 +13,13 @@ public class EpsilonEqualStates implements StateComparator {
         this.eps = eps;
     }
 
-    public EpsilonEqualStates(JSONObject object) {
-        this.eps = object.getJSONObject("data").getDouble("eps");
+    public EpsilonEqualStates(JSONObject data) {
+        if(data.has("eps")){
+            this.eps = data.getDouble("eps");
+        }
+        else
+           this.eps=0.0d;
+
     }
 
     @Override
