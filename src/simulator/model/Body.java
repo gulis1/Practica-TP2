@@ -36,9 +36,9 @@ public class Body {
             ace = new Vector2D();
 
         else
-            ace = force.scale(1.0d/mass);
+            ace = force.scale(1.0d / mass);
 
-        pos = pos.plus(vel.scale(t).plus(ace.scale(0.5d*t*t)));
+        pos = pos.plus(vel.scale(t).plus(ace.scale(0.5d * t * t)));
         vel = vel.plus(ace.scale(t));
     }
 
@@ -66,14 +66,14 @@ public class Body {
         return mass;
     }
 
-    public  void addForce(Vector2D f){
+    public void addForce(Vector2D f) {
 
-        this.force=this.force.plus(f);
+        this.force = this.force.plus(f);
 
     }
 
     public JSONObject getState() {
-        return new JSONObject().put("id", id).put("m", mass).put("p", pos.asJSONArray()).put("v",vel.asJSONArray()).put("f",force.asJSONArray());
+        return new JSONObject().put("id", id).put("m", mass).put("p", pos.asJSONArray()).put("v", vel.asJSONArray()).put("f", force.asJSONArray());
 
     }
 

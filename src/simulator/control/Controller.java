@@ -8,6 +8,7 @@ import simulator.factories.Factory;
 import simulator.model.Body;
 import simulator.model.PhysicsSimulator;
 
+import javax.sound.midi.Soundbank;
 import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -20,10 +21,10 @@ public class Controller {
 
     private final Factory<Body> factory;
 
-    public Controller(PhysicsSimulator simulator, Factory<Body> bodyFactory){
+    public Controller(PhysicsSimulator simulator, Factory<Body> bodyFactory) {
 
-        this.simulator=simulator;
-        this.factory=bodyFactory;
+        this.simulator = simulator;
+        this.factory = bodyFactory;
 
     }
 
@@ -31,7 +32,7 @@ public class Controller {
         JSONObject jsonInput = new JSONObject(new JSONTokener(in));
         JSONArray lista = jsonInput.getJSONArray("bodies");
 
-        for (int i = 0; i<lista.length(); i++) {
+        for (int i = 0; i < lista.length(); i++) {
             simulator.addBody(factory.createInstance(lista.getJSONObject(i)));
         }
 
@@ -40,30 +41,52 @@ public class Controller {
 
     public void run(int n, OutputStream out, InputStream expOut, StateComparator cmp) {
 
+        int i = 0;
+        boolean igual = true;
+        JSONObject obj = new JSONObject();
+        JSONArray arrayEstados = new JSONArray();
+        JSONArray expStates = null;
 
-        JSONObject nombrependiente=new JSONObject();
-        JSONArray arraypendiente=new JSONArray();
+        // Se pone el estado inicial
+        arrayEstados.put(simulator.getState());
 
-        for (int i = 0; i<n; i++) {
+        if (expOut != null) {
+            expStates = new JSONObject(new JSONTokener(expOut)).getJSONArray("states");
+
+            if (n + 1 != expStates.length()) {
+                igual = false;
+                System.out.println("Different number of states.");
+            }
+
+        }
+
+
+        while (i < n && igual) {
             simulator.advance();
-            arraypendiente.put(simulator.getState());
+            arrayEstados.put(simulator.getState());
+
+            if (expStates != null && cmp.equal(arrayEstados.getJSONObject(i), expStates.getJSONObject(i))) {
+                System.out.println(String.format("El estado %d no coincide no coincide", i));
+                igual = false;
+            }
+
+            i++;
         }
 
-        nombrependiente.put("states",arraypendiente);
+        obj.put("states", arrayEstados);
 
-        try {
-            out.write(nombrependiente.toString().getBytes());
+        if (expOut == null) {
+            try {
+                out.write(obj.toString().getBytes());
+            } catch (Exception s) {
+                System.out.println("No va");
+            }
+        } else {
+            if (igual)
+                System.out.println("SUUUUUUUUUU");
+            else
+                System.out.println("NOOOOOOOOOOOOOO");
         }
-
-        catch (Exception s) {
-            System.out.println("No va");
-        }
-
-
-        /*if (cmp.equal(simulator.getState(), new JSONObject(new JSONTokener(expOut))))
-            System.out.println("SUUUUU");
-        else
-            System.out.println("NOP");*/
 
 
     }

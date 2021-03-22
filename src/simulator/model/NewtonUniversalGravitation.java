@@ -24,12 +24,12 @@ public class NewtonUniversalGravitation implements ForceLaws {
     @Override
     public void apply(List<Body> bs) {
 
-        for (int i = 0; i<bs.size(); i++) {
-            for (int j = i + 1; j<bs.size(); j++) {
+        for (int i = 0; i < bs.size(); i++) {
+            for (int j = i + 1; j < bs.size(); j++) {
 
                 Vector2D r = bs.get(i).pos.minus(bs.get(j).pos);
 
-                double f =( G * bs.get(i).mass * bs.get(j).mass) / Math.pow(r.magnitude(), 2);
+                double f = (G * bs.get(i).mass * bs.get(j).mass) / Math.pow(r.magnitude(), 2);
 
                 Vector2D F = r.direction().scale(f);
 

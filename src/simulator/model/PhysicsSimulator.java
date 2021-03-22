@@ -15,10 +15,10 @@ public class PhysicsSimulator {
 
     public PhysicsSimulator(double dt, ForceLaws law) {
 
-        this.dt=dt;
-        this.law=law;
+        this.dt = dt;
+        this.law = law;
         t = 0.0d;
-        this.bs=new ArrayList<Body>();
+        this.bs = new ArrayList<Body>();
 
     }
 
@@ -51,15 +51,13 @@ public class PhysicsSimulator {
 
         state.put("time", t);
 
-        for (Body body: bs)
+        for (Body body : bs)
             bodies.put(body.getState());
 
         state.put("bodies", bodies);
 
         return state;
     }
-
-
 
 
 }

@@ -22,9 +22,9 @@ public class FartLaw implements ForceLaws {
         Random rng = new Random();
         Body body = null;
 
-        for (int i = 0; i<bs.size(); i++) {
+        for (int i = 0; i < bs.size(); i++) {
             body = bs.get(i);
-            Vector2D f = new Vector2D(-1.0d +2.0d*rng.nextDouble(), -1.0d +2.0d*rng.nextDouble());
+            Vector2D f = new Vector2D(-1.0d + 2.0d * rng.nextDouble(), -1.0d + 2.0d * rng.nextDouble());
             bs.get(i).addForce(f.scale(body.mass));
         }
     }
