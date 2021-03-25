@@ -13,7 +13,7 @@ public class MassEqualStates implements StateComparator {
         l1 = s1.getJSONArray("bodies");
         l2 = s2.getJSONArray("bodies");
 
-        if (s1.get("time") != s2.get("time"))
+        if (s1.getDouble("time") != s2.getDouble("time"))
             iguales = false;
 
 
@@ -22,7 +22,7 @@ public class MassEqualStates implements StateComparator {
 
 
         while (i < l1.length() && iguales) {
-            if (l1.getJSONObject(i).get("mass") != l2.getJSONObject(i).get("mass") || l1.getJSONObject(i).get("id") != l2.getJSONObject(i).get("id"))
+            if (l1.getJSONObject(i).getDouble("m") != l2.getJSONObject(i).getDouble("m") || !l1.getJSONObject(i).getString("id").equals(l2.getJSONObject(i).getString("id")))
                 iguales = false;
 
             i++;

@@ -65,11 +65,10 @@ public class Controller {
             simulator.advance();
             arrayEstados.put(simulator.getState());
 
-            if (expStates != null && cmp.equal(arrayEstados.getJSONObject(i), expStates.getJSONObject(i))) {
-                System.out.println(String.format("El estado %d no coincide no coincide", i));
+            if (expOut != null && !cmp.equal(arrayEstados.getJSONObject(i), expStates.getJSONObject(i))) {
+                System.out.println(String.format("El estado %d no coincide ", i));
                 igual = false;
             }
-
             i++;
         }
 

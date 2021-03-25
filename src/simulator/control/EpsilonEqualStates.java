@@ -30,7 +30,7 @@ public class EpsilonEqualStates implements StateComparator {
         l1 = s1.getJSONArray("bodies");
         l2 = s2.getJSONArray("bodies");
 
-        if (s1.get("time") != s2.get("time"))
+        if (s1.getDouble("time") != s2.getDouble("time"))
             iguales = false;
 
         else if (l1.length() != l2.length())
@@ -45,7 +45,7 @@ public class EpsilonEqualStates implements StateComparator {
                 aux1 = new Body(l1.getJSONObject(i));
                 aux2 = new Body(l2.getJSONObject(i));
 
-                if (!aux1.equals(aux2) || !aux1.equalsEpsilon(aux2, eps))
+                if (!aux1.equalsEpsilon(aux2, eps))
                     iguales = false;
 
                 i++;

@@ -88,9 +88,15 @@ public class Body {
         return id.hashCode();
     }
 
+    @Override
+    public boolean equals(Object o){
+
+        return this.hashCode()==o.hashCode();
+    }
+
     public boolean equalsEpsilon(Body b2, double eps) {
 
-        return Math.abs(mass - b2.getMass()) <= eps &&
+        return this.equals(b2) && Math.abs(mass - b2.getMass()) <= eps &&
                 pos.distanceTo(b2.getPos()) <= eps &&
                 vel.distanceTo(b2.getVel()) <= eps &&
                 force.distanceTo(b2.getForce()) <= eps;
