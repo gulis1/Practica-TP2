@@ -28,7 +28,7 @@ public class NewtonUniversalGravitationBuilder extends Builder<ForceLaws>{
 
         catch (JSONException e) {
 
-            if (e.getMessage() == "Null key.")
+            if (e.getMessage().equals("Null key."))
                 b = null;
             else
                 throw new IllegalArgumentException("Sad");

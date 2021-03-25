@@ -13,7 +13,7 @@ public class EpsilonEqualStatesBuilder extends Builder<StateComparator>{
     public  EpsilonEqualStatesBuilder(){
 
         typeTag="epseq";
-        desc=" Epsislon Equal States";
+        desc=" Epsilon Equal States";
     }
 
     @Override
@@ -26,7 +26,7 @@ public class EpsilonEqualStatesBuilder extends Builder<StateComparator>{
 
         catch (JSONException e) {
 
-            if (e.getMessage() == "Null key.")
+            if (e.getMessage().equals("Null key."))
                 b = null;
             else
                 throw new IllegalArgumentException();

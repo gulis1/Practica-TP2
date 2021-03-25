@@ -12,6 +12,5 @@ public class NoForce implements ForceLaws {
     @Override
     public void apply(List<Body> bs) {
         // UwU
-        System.out.printf("nothing happend ...:(");
     }
 }

@@ -26,7 +26,7 @@ public class MassLosingBodyBuilder extends Builder<Body>{
 
         catch (JSONException e) {
 
-            if (e.getMessage() == "Null key.")
+            if (e.getMessage().equals("Null key."))
                 b = null;
             else
                 throw new IllegalArgumentException("Sad");
