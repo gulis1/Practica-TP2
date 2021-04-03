@@ -9,10 +9,7 @@ import simulator.model.Body;
 import simulator.model.PhysicsSimulator;
 
 import javax.sound.midi.Soundbank;
-import java.io.FileWriter;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.Writer;
+import java.io.*;
 import java.util.List;
 
 public class Controller {
@@ -39,16 +36,20 @@ public class Controller {
     }
 
 
-    public void run(int n, OutputStream out, InputStream expOut, StateComparator cmp) {
+    public void run(int n, OutputStream out, InputStream expOut, StateComparator cmp) throws DiferentStatesException {
 
         int i = 0;
         boolean igual = true;
-        JSONObject obj = new JSONObject();
-        JSONArray arrayEstados = new JSONArray();
+        JSONObject estadoActual;
         JSONArray expStates = null;
 
+        PrintStream p = new PrintStream(out);
+        p.println("{");
+        p.println("\"states\": [");
+
         // Se pone el estado inicial
-        arrayEstados.put(simulator.getState());
+        p.println(simulator.getState().toString());
+
 
         if (expOut != null) {
             expStates = new JSONObject(new JSONTokener(expOut)).getJSONArray("states");
@@ -62,31 +63,25 @@ public class Controller {
 
 
         while (i < n && igual) {
-            simulator.advance();
-            arrayEstados.put(simulator.getState());
 
-            if (expOut != null && !cmp.equal(arrayEstados.getJSONObject(i), expStates.getJSONObject(i))) {
-                System.out.printf("El estado %d no coincide %n", i);
-                igual = false;
+            estadoActual = simulator.getState();
+            if (expOut != null && !cmp.equal(estadoActual, expStates.getJSONObject(i))) {
+
+                throw new DiferentStatesException(estadoActual, expStates.getJSONObject(i), i);
+
             }
+
+            simulator.advance();
+            p.println("," + estadoActual.toString());
+
             i++;
         }
 
-        obj.put("states", arrayEstados);
+        if (expOut != null)
+            System.out.println("Outputs are equal");
 
-        if (expOut == null) {
-            try {
-                out.write(obj.toString().getBytes());
-            } catch (Exception s) {
-                System.out.println("No va");
-            }
-        } else {
-            if (igual)
-                System.out.println("SUUUUUUUUUU");
-            else
-                System.out.println("NOOOOOOOOOOOOOO");
-        }
-
+        p.println("]");
+        p.println("}");
 
     }
 
