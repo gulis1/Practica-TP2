@@ -19,19 +19,21 @@ public class MassLosingBody extends Body {
     public MassLosingBody(JSONObject data) {
         super(data);
         this.lossFrequency = data.getDouble("freq");
-        this.lossFrequency = data.getDouble("factor");
+        this.lossFactor = data.getDouble("factor");
 
     }
 
     @Override
     public void move(double t) {
         super.move(t);
-
         c += t;
         if (c >= lossFrequency) {
-            mass = mass * (1.0d - lossFactor);
+            mass *= (1.0d - lossFactor);
             c = 0.0d;
         }
+
+
+
 
     }
 

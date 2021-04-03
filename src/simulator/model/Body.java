@@ -32,7 +32,7 @@ public class Body {
     public void move(double t) {
         Vector2D ace;
 
-        if (mass == 0)
+        if (mass == 0.0d)
             ace = new Vector2D();
 
         else
@@ -91,7 +91,7 @@ public class Body {
     @Override
     public boolean equals(Object o){
 
-        return this.hashCode()==o.hashCode();
+        return  o.getClass() == this.getClass() && this.hashCode() == o.hashCode();
     }
 
     public boolean equalsEpsilon(Body b2, double eps) {
