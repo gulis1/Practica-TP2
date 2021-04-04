@@ -20,6 +20,7 @@ public class MassLosingBody extends Body {
         super(data);
         this.lossFrequency = data.getDouble("freq");
         this.lossFactor = data.getDouble("factor");
+        this.c = 0.0d;
 
     }
 
