@@ -23,13 +23,12 @@ public class MassEqualStatesBuilder extends Builder<StateComparator> {
 
         try {
             b = new MassEqualStates();
-        } catch (JSONException e) {
+        }
 
-            if (e.getMessage().equals("Null key."))
-                b = null;
-            else
-                throw new IllegalArgumentException("Sad");
+        catch (JSONException e) {
 
+            if (!e.getMessage().equals("Null key."))
+                throw new IllegalArgumentException();
         }
 
         return b;

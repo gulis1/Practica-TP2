@@ -22,11 +22,11 @@ public class EpsilonEqualStatesBuilder extends Builder<StateComparator> {
 
         try {
             b = new EpsilonEqualStates(info);
-        } catch (JSONException e) {
+        }
 
-            if (e.getMessage().equals("Null key."))
-                b = null;
-            else
+        catch (JSONException e) {
+
+            if (!e.getMessage().equals("Null key."))
                 throw new IllegalArgumentException();
 
         }

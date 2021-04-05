@@ -22,12 +22,12 @@ public class FartLawBuilder extends Builder<ForceLaws> {
 
         try {
             b = new FartLaw();
-        } catch (JSONException e) {
+        }
 
-            if (e.getMessage().equals("Null key."))
-                b = null;
-            else
-                throw new IllegalArgumentException("Sad");
+        catch (JSONException e) {
+
+            if (!e.getMessage().equals("Null key."))
+                throw new IllegalArgumentException();
 
         }
 

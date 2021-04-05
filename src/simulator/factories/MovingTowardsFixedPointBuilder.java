@@ -22,13 +22,12 @@ public class MovingTowardsFixedPointBuilder extends Builder<ForceLaws> {
 
         try {
             b = new MovingTowardsFixedPoint(info);
-        } catch (JSONException e) {
+        }
 
-            if (e.getMessage().equals("Null key."))
-                b = null;
-            else
-                throw new IllegalArgumentException("Sad");
+        catch (JSONException e) {
 
+            if (!e.getMessage().equals("Null key."))
+                throw new IllegalArgumentException();
         }
 
         return b;

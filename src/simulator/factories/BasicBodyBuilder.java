@@ -24,9 +24,7 @@ public class BasicBodyBuilder extends Builder<Body> {
 
         catch (JSONException e) {
 
-            if (e.getMessage().equals("Null key."))
-                b = null;
-            else
+            if (!e.getMessage().equals("Null key."))
                 throw new IllegalArgumentException();
 
         }

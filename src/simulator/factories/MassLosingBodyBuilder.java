@@ -22,12 +22,12 @@ public class MassLosingBodyBuilder extends Builder<Body> {
 
         try {
             b = new MassLosingBody(info);
-        } catch (JSONException e) {
+        }
 
-            if (e.getMessage().equals("Null key."))
-                b = null;
-            else
-                throw new IllegalArgumentException("Sad");
+        catch (JSONException e) {
+
+            if (!e.getMessage().equals("Null key."))
+                throw new IllegalArgumentException();
 
         }
 

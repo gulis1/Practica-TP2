@@ -25,10 +25,8 @@ public class NoForceBuilder extends Builder<ForceLaws> {
             b = new NoForce();
         } catch (JSONException e) {
 
-            if (e.getMessage().equals("Null key."))
-                b = null;
-            else
-                throw new IllegalArgumentException("Sad");
+            if (!e.getMessage().equals("Null key."))
+                throw new IllegalArgumentException();
 
         }
 
