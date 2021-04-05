@@ -10,10 +10,10 @@ import java.util.List;
 
 public class MovingTowardsFixedPointBuilder extends Builder<ForceLaws> {
 
-    public MovingTowardsFixedPointBuilder(){
+    public MovingTowardsFixedPointBuilder() {
 
-        typeTag="mtfp";
-        desc="Moving Towards Fixed Point";
+        typeTag = "mtfp";
+        desc = "Moving Towards Fixed Point";
     }
 
     @Override
@@ -22,9 +22,7 @@ public class MovingTowardsFixedPointBuilder extends Builder<ForceLaws> {
 
         try {
             b = new MovingTowardsFixedPoint(info);
-        }
-
-        catch (JSONException e) {
+        } catch (JSONException e) {
 
             if (e.getMessage().equals("Null key."))
                 b = null;
@@ -40,7 +38,7 @@ public class MovingTowardsFixedPointBuilder extends Builder<ForceLaws> {
     @Override
     protected JSONObject createData() {
 
-        return new JSONObject().put("g","Constante de gravedad").put("c","origen");
+        return new JSONObject().put("g", "Constante de gravedad").put("c", "origen");
 
     }
 

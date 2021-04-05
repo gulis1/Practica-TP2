@@ -14,8 +14,6 @@ public class BasicBodyBuilder extends Builder<Body> {
     }
 
 
-
-
     @Override
     public Body createTheInstance(JSONObject data) {
         Body b = null;
@@ -40,7 +38,7 @@ public class BasicBodyBuilder extends Builder<Body> {
     @Override
     protected JSONObject createData() {
 
-      return new JSONObject().put("id","bl").put("p","vector de posicion").put("v","vector de velocidad").put("m","double de masa");
+        return new JSONObject().put("id", "bl").put("p", "vector de posicion").put("v", "vector de velocidad").put("m", "double de masa");
 
     }
 }

@@ -10,10 +10,10 @@ import java.util.List;
 
 public class NoForceBuilder extends Builder<ForceLaws> {
 
-    public NoForceBuilder(){
+    public NoForceBuilder() {
 
-        typeTag="nf";
-        desc="No Force Law";
+        typeTag = "nf";
+        desc = "No Force Law";
     }
 
 
@@ -23,11 +23,9 @@ public class NoForceBuilder extends Builder<ForceLaws> {
 
         try {
             b = new NoForce();
-        }
+        } catch (JSONException e) {
 
-        catch (JSONException e) {
-
-            if (e.getMessage() == "Null key.")
+            if (e.getMessage().equals("Null key."))
                 b = null;
             else
                 throw new IllegalArgumentException("Sad");

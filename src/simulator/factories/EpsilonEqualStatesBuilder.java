@@ -8,12 +8,12 @@ import simulator.model.Body;
 
 import java.util.List;
 
-public class EpsilonEqualStatesBuilder extends Builder<StateComparator>{
+public class EpsilonEqualStatesBuilder extends Builder<StateComparator> {
 
-    public  EpsilonEqualStatesBuilder(){
+    public EpsilonEqualStatesBuilder() {
 
-        typeTag="epseq";
-        desc=" Epsilon Equal States";
+        typeTag = "epseq";
+        desc = " Epsilon Equal States";
     }
 
     @Override
@@ -22,9 +22,7 @@ public class EpsilonEqualStatesBuilder extends Builder<StateComparator>{
 
         try {
             b = new EpsilonEqualStates(info);
-        }
-
-        catch (JSONException e) {
+        } catch (JSONException e) {
 
             if (e.getMessage().equals("Null key."))
                 b = null;

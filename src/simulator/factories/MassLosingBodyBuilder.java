@@ -7,12 +7,12 @@ import simulator.model.MassLosingBody;
 
 import java.util.List;
 
-public class MassLosingBodyBuilder extends Builder<Body>{
+public class MassLosingBodyBuilder extends Builder<Body> {
 
 
     public MassLosingBodyBuilder() {
-        typeTag="mlb";
-        desc="MassLosingBody";
+        typeTag = "mlb";
+        desc = "MassLosingBody";
 
     }
 
@@ -22,9 +22,7 @@ public class MassLosingBodyBuilder extends Builder<Body>{
 
         try {
             b = new MassLosingBody(info);
-        }
-
-        catch (JSONException e) {
+        } catch (JSONException e) {
 
             if (e.getMessage().equals("Null key."))
                 b = null;

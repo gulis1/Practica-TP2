@@ -10,10 +10,10 @@ import java.util.List;
 
 public class MassEqualStatesBuilder extends Builder<StateComparator> {
 
-    public MassEqualStatesBuilder(){
+    public MassEqualStatesBuilder() {
 
-        typeTag="masseq";
-        desc="Mass Equal States";
+        typeTag = "masseq";
+        desc = "Mass Equal States";
 
     }
 
@@ -23,9 +23,7 @@ public class MassEqualStatesBuilder extends Builder<StateComparator> {
 
         try {
             b = new MassEqualStates();
-        }
-
-        catch (JSONException e) {
+        } catch (JSONException e) {
 
             if (e.getMessage().equals("Null key."))
                 b = null;

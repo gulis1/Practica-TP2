@@ -12,8 +12,8 @@ public class FartLawBuilder extends Builder<ForceLaws> {
 
     public FartLawBuilder() {
 
-        typeTag="fl";
-        desc="Fart Law";
+        typeTag = "fl";
+        desc = "Fart Law";
     }
 
     @Override
@@ -22,9 +22,7 @@ public class FartLawBuilder extends Builder<ForceLaws> {
 
         try {
             b = new FartLaw();
-        }
-
-        catch (JSONException e) {
+        } catch (JSONException e) {
 
             if (e.getMessage().equals("Null key."))
                 b = null;

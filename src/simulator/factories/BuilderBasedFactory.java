@@ -15,13 +15,12 @@ public class BuilderBasedFactory<T> implements Factory<T> {
     }
 
 
-
     @Override
     public T createInstance(JSONObject info) throws IllegalArgumentException {
         T instancia = null;
         int i = 0;
 
-        while(i < lista.size() && instancia == null) {
+        while (i < lista.size() && instancia == null) {
             instancia = lista.get(i).createInstance(info);
             i++;
         }
