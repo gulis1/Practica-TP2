@@ -61,7 +61,6 @@ public class Main {
         forceBuilders.add(new NewtonUniversalGravitationBuilder());
         forceBuilders.add(new MovingTowardsFixedPointBuilder());
         forceBuilders.add(new NoForceBuilder());
-        forceBuilders.add(new FartLawBuilder());
         _forceLawsFactory = new BuilderBasedFactory<ForceLaws>(forceBuilders);
 
         // initialize the state comparator

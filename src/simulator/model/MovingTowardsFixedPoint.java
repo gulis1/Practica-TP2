@@ -37,7 +37,7 @@ public class MovingTowardsFixedPoint implements ForceLaws {
 
         for (Body b : bs) {
             coso = b;
-            f = g * coso.mass;
+            f = g * coso.getMass();
 
             Vector2D r = origen.minus(coso.getPos());
 
