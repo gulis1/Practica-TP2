@@ -6,7 +6,9 @@ import org.json.JSONTokener;
 import simulator.factories.Builder;
 import simulator.factories.Factory;
 import simulator.model.Body;
+import simulator.model.ForceLaws;
 import simulator.model.PhysicsSimulator;
+import simulator.model.SimulatorObserver;
 
 import javax.sound.midi.Soundbank;
 import java.io.*;
@@ -16,12 +18,14 @@ public class Controller {
 
     private final PhysicsSimulator simulator;
 
-    private final Factory<Body> factory;
+    private final Factory<Body> bodyFactory;
+    private final Factory<ForceLaws> lawFactory;
 
-    public Controller(PhysicsSimulator simulator, Factory<Body> bodyFactory) {
+    public Controller(PhysicsSimulator simulator, Factory<Body> bodyFactory, Factory<ForceLaws> lawFactory) {
 
         this.simulator = simulator;
-        this.factory = bodyFactory;
+        this.bodyFactory = bodyFactory;
+        this.lawFactory = lawFactory;
 
     }
 
@@ -30,7 +34,7 @@ public class Controller {
         JSONArray lista = jsonInput.getJSONArray("bodies");
 
         for (int i = 0; i < lista.length(); i++) {
-            simulator.addBody(factory.createInstance(lista.getJSONObject(i)));
+            simulator.addBody(bodyFactory.createInstance(lista.getJSONObject(i)));
         }
 
     }
@@ -85,4 +89,30 @@ public class Controller {
 
     }
 
+    public void run(int n) {
+
+        for (int i= 0; i<n; i++)
+            simulator.advance();
+
+    }
+
+    public void reset() {
+        simulator.reset();
+    }
+
+    public void setDeltaTime(double dt) {
+        simulator.setDt(dt);
+    }
+
+    public void addObserver(SimulatorObserver o) {
+        simulator.addObserver(o);
+    }
+
+    public List<JSONObject>getForceLawsInfo(){
+        return lawFactory.getInfo();
+    }
+
+    public void setForceLaws(JSONObject info) {
+        simulator.setForceLaw(lawFactory.createInstance(info));
+    }
 }

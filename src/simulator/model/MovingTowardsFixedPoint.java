@@ -45,4 +45,10 @@ public class MovingTowardsFixedPoint implements ForceLaws {
         }
     }
 
+    @Override
+    public String toString() {
+        return String.format("Moving towards %s with constant acceleration %f", origen.toString(), g);
+    }
+
+
 }

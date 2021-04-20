@@ -33,9 +33,6 @@ public class MassLosingBody extends Body {
             c = 0.0d;
         }
 
-
-
-
     }
 
 }

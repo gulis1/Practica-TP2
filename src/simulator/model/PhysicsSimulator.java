@@ -8,10 +8,12 @@ import java.util.List;
 
 public class PhysicsSimulator {
 
-    private final double dt;
-    private final ForceLaws law;
+    private double dt;
+    private ForceLaws law;
     private double t;
     private List<Body> bs;
+    private List<SimulatorObserver> observerList;
+
 
     public PhysicsSimulator(double dt, ForceLaws law) {
 
@@ -37,10 +39,18 @@ public class PhysicsSimulator {
 
     public void addBody(Body b) throws IllegalArgumentException {
 
-        if (!bs.contains(b))
+        if (!bs.contains(b)) {
+
             bs.add(b);
+
+            for(SimulatorObserver observer : observerList )
+                observer.onBodyAdded(bs, b);
+        }
+
         else
             throw new IllegalArgumentException();
+
+
 
     }
 
@@ -59,5 +69,52 @@ public class PhysicsSimulator {
         return state;
     }
 
+    public void reset() {
+
+        t = 0;
+        bs = new ArrayList<Body>();
+
+        for(SimulatorObserver observer : observerList )
+            observer.onReset(bs, t, dt, law.toString());
+    }
+
+    public void setDt(double dt) throws IllegalArgumentException {
+
+        if (dt<0)
+            throw new IllegalArgumentException();
+
+        else {
+
+            this.dt = dt;
+            for(SimulatorObserver observer : observerList )
+                observer.onDeltaTimeChanged(dt);
+        }
+
+
+
+
+    }
+
+    public void setForceLaw(ForceLaws law) throws IllegalArgumentException {
+
+        if (law == null)
+            throw new IllegalArgumentException();
+
+        else{
+            this.law = law;
+            for(SimulatorObserver observer : observerList )
+                observer.onForceLawsChanged(law.toString());
+
+        }
+
+    }
+
+    public void addObserver(SimulatorObserver o) {
+        o.onRegister(bs, t, dt, law.toString());
+
+        if(!observerList.contains(o))
+             observerList.add(o);
+
+    }
 
 }

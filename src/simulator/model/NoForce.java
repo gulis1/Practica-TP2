@@ -13,4 +13,9 @@ public class NoForce implements ForceLaws {
     public void apply(List<Body> bs) {
         // UwU
     }
+
+    @Override
+    public String toString(){
+        return "No Force";
+    }
 }

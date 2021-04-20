@@ -41,4 +41,10 @@ public class NewtonUniversalGravitation implements ForceLaws {
         }
     }
 
+    @Override
+    public String toString() {
+
+        return String.format("Newton’s Universal Gravitation with G=%f", G);
+    }
+
 }
