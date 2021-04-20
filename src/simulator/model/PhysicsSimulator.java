@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observer;
 
 public class PhysicsSimulator {
 
@@ -21,6 +22,7 @@ public class PhysicsSimulator {
         this.law = law;
         t = 0.0d;
         this.bs = new ArrayList<Body>();
+        this.observerList = new ArrayList<SimulatorObserver>();
 
     }
 

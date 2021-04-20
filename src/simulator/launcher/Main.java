@@ -16,7 +16,9 @@ import simulator.model.Body;
 import simulator.model.ForceLaws;
 import simulator.model.NewtonUniversalGravitation;
 import simulator.model.PhysicsSimulator;
+import simulator.view.MainWindow;
 
+import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +31,7 @@ public class Main {
     private final static Integer _defaultSteps = 150;
     private final static String _forceLawsDefaultValue = "nlug";
     private final static String _stateComparatorDefaultValue = "epseq";
+    private final static String _modeDefaultValue = "batch";
 
     // some attributes to stores values corresponding to command-line parameters
     //
@@ -47,6 +50,7 @@ public class Main {
     private static InputStream in;
     private static InputStream expIn;
     private static int stepNum;
+    private static String mode;
 
     private static void init() {
         //  initialize the bodies factory
@@ -82,6 +86,8 @@ public class Main {
         try {
             CommandLine line = parser.parse(cmdLineOptions, args);
 
+            parseModeOption(line);
+
             parseHelpOption(line, cmdLineOptions);
             parseInFileOption(line);
             // add support of -o, -eo, and -s (define corresponding parse methods)
@@ -93,15 +99,16 @@ public class Main {
             parseExpectedOutFileOption(line);
             parseOutPutFileOption(line);
 
+
             // if there are some remaining arguments, then something wrong is
             // provided in the command line!
             //
             String[] remaining = line.getArgs();
             if (remaining.length > 0) {
-                String error = "Illegal arguments:";
+                StringBuilder error = new StringBuilder("Illegal arguments:");
                 for (String o : remaining)
-                    error += (" " + o);
-                throw new ParseException(error);
+                    error.append(" ").append(o);
+                throw new ParseException(error.toString());
             }
 
         } catch (ParseException e) {
@@ -150,6 +157,12 @@ public class Main {
                         + _stateComparatorDefaultValue + "'.")
                 .build());
 
+        cmdLineOptions.addOption(Option.builder("m").longOpt("mode").hasArg()
+                .desc(" Execution Mode. Possible values: 'batch'(Batch Mode), 'gui' (Graphical User Interface mode)" + "Default value: '" + _modeDefaultValue + "'.")
+                .build());
+
+
+
         return cmdLineOptions;
     }
 
@@ -170,6 +183,21 @@ public class Main {
         return s;
     }
 
+    private static void parseModeOption(CommandLine line) throws ParseException {
+
+        String modo = line.getOptionValue("m");
+
+        if (modo == null)
+            mode = _modeDefaultValue;
+
+        else if (!modo.equals("gui") && !modo.equals("batch"))
+            throw new ParseException("Invalid mode: " + modo + ".");
+
+        else
+            mode = modo;
+
+    }
+
     private static void parseHelpOption(CommandLine line, Options cmdLineOptions) {
         if (line.hasOption("h")) {
             HelpFormatter formatter = new HelpFormatter();
@@ -180,14 +208,16 @@ public class Main {
 
     private static void parseInFileOption(CommandLine line) throws ParseException {
         _inFile = line.getOptionValue("i");
-        if (_inFile == null) {
+        if (_inFile == null && mode.equals("batch")) {
             throw new ParseException("In batch mode an input file of bodies is required");
-        } else {
+        }
+
+        else if (_inFile != null) {
             try {
                 in = new FileInputStream(new File(_inFile));
             } catch (FileNotFoundException e) {
                 System.out.println("archivo de bodies no encontrado");
-                ;
+
             }
         }
 
@@ -300,20 +330,34 @@ public class Main {
     private static void startBatchMode() throws Exception {
         // complete this method
         PhysicsSimulator simulator = new PhysicsSimulator(_dtime, _forceLawsFactory.createInstance(_forceLawsInfo));
-        Controller controller = new Controller(simulator, _bodyFactory);
+        Controller controller = new Controller(simulator, _bodyFactory, _forceLawsFactory);
 
         controller.loadBodies(in);
         controller.run(stepNum, out, expIn, _stateComparatorFactory.createInstance(_stateComparatorInfo));
 
     }
 
+    private static void startGuiMode() throws Exception {
+
+        PhysicsSimulator simulator = new PhysicsSimulator(_dtime, _forceLawsFactory.createInstance(_forceLawsInfo));
+        Controller controller = new Controller(simulator, _bodyFactory, _forceLawsFactory);
+
+        SwingUtilities.invokeAndWait(() -> new MainWindow(controller));
+
+    }
+
     private static void start(String[] args) throws Exception {
         parseArgs(args);
-        startBatchMode();
+
+        if (mode.equals("batch"))
+            startBatchMode();
+        else if (mode.equals("gui"))
+            startGuiMode();
     }
 
     public static void main(String[] args) {
         try {
+
             init();
             start(args);
         } catch (Exception e) {
