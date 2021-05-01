@@ -165,6 +165,7 @@ public class ControlPanel extends JToolBar implements SimulatorObserver {
         this.add(Box.createGlue());
         this.add(exitButton);
 
+        
     }
 
     // other private/protected methods
