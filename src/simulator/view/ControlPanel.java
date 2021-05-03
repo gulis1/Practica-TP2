@@ -34,8 +34,6 @@ public class ControlPanel extends JToolBar implements SimulatorObserver {
     private JSpinner fidgetSpinner;
     private JTextField deltaVaina;
 
-    private JFrame par
-
 
     ControlPanel(Controller ctrl) {
         _ctrl = ctrl;
@@ -72,7 +70,7 @@ public class ControlPanel extends JToolBar implements SimulatorObserver {
 
         physicsButton = new JButton(new ImageIcon("resources/icons/physics.png"));
         physicsButton.addActionListener(event-> {
-            new ForceLawsDialog(this., _ctrl);
+            new ForceLawsDialog(new JFrame(), _ctrl);
         });
 
 
