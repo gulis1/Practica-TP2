@@ -37,6 +37,7 @@ public class Controller {
             simulator.addBody(bodyFactory.createInstance(lista.getJSONObject(i)));
         }
 
+        
     }
 
 
