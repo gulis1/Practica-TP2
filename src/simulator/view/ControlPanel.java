@@ -1,17 +1,19 @@
 package simulator.view;
 
+import javafx.scene.layout.ColumnConstraints;
+import org.json.JSONObject;
 import simulator.control.Controller;
 import simulator.model.Body;
 import simulator.model.SimulatorObserver;
 
 import javax.swing.*;
-import javax.swing.event.ChangeListener;
-import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.AbstractTableModel;
 import java.awt.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class ControlPanel extends JToolBar implements SimulatorObserver {
@@ -32,7 +34,8 @@ public class ControlPanel extends JToolBar implements SimulatorObserver {
     private JSpinner fidgetSpinner;
     private JTextField deltaVaina;
 
-    private JFrame padre;
+    private JFrame par
+
 
     ControlPanel(Controller ctrl) {
         _ctrl = ctrl;
@@ -68,33 +71,8 @@ public class ControlPanel extends JToolBar implements SimulatorObserver {
 
 
         physicsButton = new JButton(new ImageIcon("resources/icons/physics.png"));
-        physicsButton.addActionListener(event->{
-
-           JDialog setforces= new JDialog(padre,"Force Laws Selection",true);
-           //Font bold = new Font("Arial",Font.BOLD);
-            JTable table= new JTable();
-            JPanel panel = new JPanel();
-            JButton cancel=new JButton("cancel");
-            JButton ok=new JButton("OK");
-            JComboBox comboBox = new JComboBox();
-
-
-
-           setforces.setSize(800,500);
-           setforces.setLayout(new BorderLayout());
-           setforces.add(new JLabel("Select a force law  and provide values for the parameters in the Value column (default values are used for parameters with no value)"),BorderLayout.NORTH);
-           setforces.add(table,BorderLayout.CENTER);
-
-           panel.add(new JLabel("Force Law: "));
-           panel.add(comboBox);
-           panel.add(cancel);
-           panel.add(ok);
-
-           setforces.add(panel,BorderLayout.SOUTH);
-
-               // _ctrl.setForceLaws();
-            setforces.setVisible(true);
-
+        physicsButton.addActionListener(event-> {
+            new ForceLawsDialog(this., _ctrl);
         });
 
 
@@ -232,6 +210,11 @@ public class ControlPanel extends JToolBar implements SimulatorObserver {
     public void onForceLawsChanged(String fLawsDesc) {
 
     }
+
+
+
+
+
 // SimulatorObserver methods
 // ...
 }
