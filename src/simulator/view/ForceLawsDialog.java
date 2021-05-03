@@ -1,11 +1,14 @@
 package simulator.view;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import simulator.control.Controller;
+import simulator.misc.Vector2D;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -30,39 +33,43 @@ public class ForceLawsDialog extends JDialog {
         setforces.setSize(500, 600);
         setforces.setLayout(new BoxLayout(setforces.getContentPane(), BoxLayout.Y_AXIS));
 
+        // Descripcion.
         setforces.add(new JLabel("Select a force law  and provide values for the parameters in the Value column (default values are used for parameters with no value)"));
 
-
-        //Font bold = new Font("Arial",Font.BOLD);
+        // Tabla de leyes
         ModeloTablaLeyes modelo = new ModeloTablaLeyes();
         JTable table = new JTable(modelo);
+        modelo.setRows(listaDeLeyes.get(0));            // Por defecto se pone la primera ley de la lista.
+        //Font bold = new Font("Arial",Font.BOLD);
 
         table.setMinimumSize(new Dimension(300, 250));
         table.setMaximumSize(new Dimension(300, 250));
         table.setShowGrid(false);
         table.setVisible(true);
+
+
         JScrollPane scrollPane = new JScrollPane(table);
-
         scrollPane.setVisible(true);
-
         setforces.add(scrollPane);
 
-        List<JSONObject> listaDeLeyes = controller.getForceLawsInfo();
+
         // Panel de abajo
         JPanel panelAbajo = new JPanel();
-        JButton cancel = new JButton("cancel");
-        JButton ok = new JButton("OK");
-        JTextArea info = new JTextArea();
+
+        // ComboBox
         JComboBox<String> comboBox = new JComboBox<String>();
 
-        for (JSONObject mierda : listaDeLeyes) {
-            comboBox.addItem(mierda.getString("desc"));
+        for (JSONObject ley : listaDeLeyes) {
+            comboBox.addItem(ley.getString("desc"));
         }
 
-        comboBox.addActionListener(event3 -> modelo.setRows(listaDeLeyes.get(comboBox.getSelectedIndex())));
+        comboBox.addActionListener(event -> modelo.setRows(listaDeLeyes.get(comboBox.getSelectedIndex())));
 
+        JButton cancel = new JButton("cancel");
+        cancel.addActionListener((event) -> padre.dispose());
 
-        ok.addActionListener(event2 -> {
+        JButton ok = new JButton("OK");
+        ok.addActionListener((event)-> {
 
             JSONObject leyTemplate = listaDeLeyes.get(comboBox.getSelectedIndex());
             Iterator<String> iterator = leyTemplate.getJSONObject("data").keys();
@@ -83,7 +90,9 @@ public class ForceLawsDialog extends JDialog {
             }
 
             controller.setForceLaws(ley);
+            padre.dispose();
         });
+
         panelAbajo.add(new JLabel("Force Law: "));
         panelAbajo.add(comboBox);
         panelAbajo.add(cancel);
@@ -92,16 +101,17 @@ public class ForceLawsDialog extends JDialog {
 
         setforces.add(panelAbajo);
 
-        // _ctrl.setForceLaws();
         setforces.setVisible(true);
+
     }
 
-    private class ModeloTablaLeyes extends AbstractTableModel {
+
+    private final class ModeloTablaLeyes extends AbstractTableModel {
 
         private int numRows;
         private int numCols;
 
-        ArrayList<JSONObject> rows;
+        private ArrayList<JSONObject> rows;
 
         public ModeloTablaLeyes() {
             this.numRows = 0;
@@ -109,7 +119,7 @@ public class ForceLawsDialog extends JDialog {
             this.rows = new ArrayList<JSONObject>();
         }
 
-        // Añade filas srgun la ley que se le pasa
+        // Añade filas segun la ley que se le pasa
         public void setRows(JSONObject ley) {
 
             rows = new ArrayList<JSONObject>();
@@ -144,12 +154,28 @@ public class ForceLawsDialog extends JDialog {
         }
 
         @Override
-        public String getValueAt(int rowIndex, int columnIndex) {
+        public Object getValueAt(int rowIndex, int columnIndex) {
 
             switch (columnIndex) {
 
                 case 0 :  return rows.get(rowIndex).getString("Key");
-                case 1 :  return rows.get(rowIndex).has("Value") ? rows.get(rowIndex).get("Value").toString() : null;
+                case 1 :  {
+
+                    // SI no se ha introducido un valor se devuelve null
+                    if (!rows.get(rowIndex).has("Value"))
+                        return null;
+
+                    else try {
+                        return Double.parseDouble(rows.get(rowIndex).getString("Value"));
+                    }
+
+                    catch (NumberFormatException e) {
+                        // Si el valor introducido en la tabla es un vector 2d se entra aqui
+                        System.out.println("saf");
+                        return new JSONArray(rows.get(rowIndex).getString("Value"));
+                    }
+
+                }
                 case 2 :  return rows.get(rowIndex).getString("Descripcion");
                 default:  return null;
             }

@@ -9,10 +9,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BodiesTableModel extends AbstractTableModel implements SimulatorObserver {
-    // ...
+
+    int rows;
+    int cols;
+
     private List<Body> _bodies;
     BodiesTableModel(Controller ctrl) {
         _bodies = new ArrayList<>();
+        rows = 0;
+        cols = 5;
         ctrl.addObserver(this);
     }
 
@@ -44,22 +49,15 @@ public class BodiesTableModel extends AbstractTableModel implements SimulatorObs
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
 
-        if (rowIndex < 0 || rowIndex > _bodies.size())
-            return null;
+        switch(rowIndex) {
 
-        else if (columnIndex < 0 || columnIndex > getColumnCount() - 1)
-            return null;
-
-        else
-            switch(rowIndex) {
-
-                case 0: return _bodies.get(rowIndex).getId();
-                case 1: return _bodies.get(rowIndex).getMass();
-                case 2: return _bodies.get(rowIndex).getPos();
-                case 3: return _bodies.get(rowIndex).getVel();
-                case 4: return _bodies.get(rowIndex).getForce();
-                default: return null;
-            }
+            case 0: return _bodies.get(rowIndex).getId();
+            case 1: return _bodies.get(rowIndex).getMass();
+            case 2: return _bodies.get(rowIndex).getPos();
+            case 3: return _bodies.get(rowIndex).getVel();
+            case 4: return _bodies.get(rowIndex).getForce();
+            default: return null;
+        }
     }
 
     @Override
@@ -75,11 +73,14 @@ public class BodiesTableModel extends AbstractTableModel implements SimulatorObs
     @Override
     public void onBodyAdded(List<Body> bodies, Body b) {
         _bodies.add(b);
+        rows++;
+        fireTableRowsInserted(0, rows-1);
     }
 
     @Override
     public void onAdvance(List<Body> bodies, double time) {
         _bodies = bodies;
+        fireTableDataChanged();
     }
 
     @Override

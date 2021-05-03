@@ -17,5 +17,8 @@ public class BodiesTable extends JPanel {
         JTable table = new JTable();
         table.setModel(new BodiesTableModel(ctrl));
 
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setVisible(true);
+
     }
 }
