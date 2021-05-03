@@ -14,6 +14,7 @@ public class BodiesTableModel extends AbstractTableModel implements SimulatorObs
     int cols;
 
     private List<Body> _bodies;
+
     BodiesTableModel(Controller ctrl) {
         _bodies = new ArrayList<>();
         rows = 0;
@@ -28,7 +29,7 @@ public class BodiesTableModel extends AbstractTableModel implements SimulatorObs
 
     @Override
     public int getColumnCount() {
-        return 5;
+        return cols;
     }
 
     @Override
@@ -49,7 +50,7 @@ public class BodiesTableModel extends AbstractTableModel implements SimulatorObs
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
 
-        switch(rowIndex) {
+        switch(columnIndex) {
 
             case 0: return _bodies.get(rowIndex).getId();
             case 1: return _bodies.get(rowIndex).getMass();
@@ -67,14 +68,16 @@ public class BodiesTableModel extends AbstractTableModel implements SimulatorObs
 
     @Override
     public void onReset(List<Body> bodies, double time, double dt, String fLawsDesc) {
-
+        _bodies = new ArrayList<>();
+        rows = 0;
+        fireTableRowsDeleted(0,0);
     }
 
     @Override
     public void onBodyAdded(List<Body> bodies, Body b) {
         _bodies.add(b);
         rows++;
-        fireTableRowsInserted(0, rows-1);
+        fireTableRowsInserted(0, rows);
     }
 
     @Override

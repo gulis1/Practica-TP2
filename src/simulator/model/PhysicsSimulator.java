@@ -45,7 +45,7 @@ public class PhysicsSimulator {
 
             bs.add(b);
 
-            for(SimulatorObserver observer : observerList )
+            for(SimulatorObserver observer: observerList )
                 observer.onBodyAdded(bs, b);
         }
 

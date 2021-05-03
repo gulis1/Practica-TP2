@@ -15,10 +15,13 @@ public class BodiesTable extends JPanel {
         setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2), "Bodies", TitledBorder.LEFT, TitledBorder.TOP));
 
         JTable table = new JTable();
+        table.setVisible(true);
         table.setModel(new BodiesTableModel(ctrl));
 
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setVisible(true);
+
+        this.add(scrollPane);
 
     }
 }
