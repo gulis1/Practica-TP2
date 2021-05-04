@@ -1,6 +1,6 @@
 package simulator.view;
 
-import javafx.scene.layout.ColumnConstraints;
+
 import org.json.JSONObject;
 import simulator.control.Controller;
 import simulator.model.Body;
@@ -20,10 +20,6 @@ public class ControlPanel extends JToolBar implements SimulatorObserver {
     // ...
     private Controller _ctrl;
     private boolean _stopped;
-    private String deltaTime = "2500.0";
-
-
-    private int steps;
 
     private JButton openButton;
     private JButton physicsButton;
@@ -75,6 +71,7 @@ public class ControlPanel extends JToolBar implements SimulatorObserver {
 
 
         runButton = new JButton(new ImageIcon("resources/icons/run.png"));
+
         runButton.addActionListener(event -> {
 
             // Se desactivan todos los botones-
@@ -82,9 +79,12 @@ public class ControlPanel extends JToolBar implements SimulatorObserver {
             openButton.setEnabled(false);
             physicsButton.setEnabled(false);
             exitButton.setEnabled(false);
+            _stopped=false;
 
-            _ctrl.setDeltaTime(Double.parseDouble(deltaTime));
-            run_sim(steps);
+
+            _ctrl.setDeltaTime(Double.parseDouble(deltaVaina.getText()));
+
+            run_sim((Integer)fidgetSpinner.getValue());
 
         });
 
@@ -115,11 +115,13 @@ public class ControlPanel extends JToolBar implements SimulatorObserver {
     }
 
     private void initSpinnerAndTextField(){
-        fidgetSpinner = new JSpinner(new SpinnerNumberModel(steps, 0, null, 1000));
+        fidgetSpinner = new JSpinner(new SpinnerNumberModel(0, 0, null, 1000));
         fidgetSpinner.setMaximumSize(new Dimension(600, 30));
 
-        deltaVaina = new JTextField(deltaTime);
+
+        deltaVaina = new JTextField("2500.0");
         deltaVaina.setMaximumSize(new Dimension(300 , 30));
+
     }
 
     private void initGUI() {

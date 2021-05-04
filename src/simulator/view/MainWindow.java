@@ -20,7 +20,7 @@ public class MainWindow extends JFrame {
         this.setSize(300, 300);
         this.add(new BodiesTable(_ctrl), BorderLayout.CENTER);
         this.add(new ControlPanel(_ctrl),BorderLayout.NORTH);
-
+        this.add(new StatusBar(_ctrl),BorderLayout.SOUTH);
 
 
 

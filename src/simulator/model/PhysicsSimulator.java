@@ -37,6 +37,9 @@ public class PhysicsSimulator {
             body.move(dt);
 
         t += dt;
+
+        for(SimulatorObserver observer : observerList )
+            observer.onAdvance(bs, t);
     }
 
     public void addBody(Body b) throws IllegalArgumentException {
