@@ -24,7 +24,6 @@ public class Viewer extends JComponent implements SimulatorObserver {
     private boolean _showHelp;
     private boolean _showVectors;
 
-    private double dt = 2500;
 
     Viewer(Controller ctrl) {
         initGUI();
@@ -133,12 +132,12 @@ public class Viewer extends JComponent implements SimulatorObserver {
 
             gr.fillOval(x, y, 5  , 5);
 
-            int x2 =  _centerX + (int) ((body.getPos().getX() + body.getVel().getX()*dt)/_scale);
-            int y2 =  _centerY - (int) ((body.getPos().getY() + body.getVel().getY()*dt)/_scale);
+            int x2 =  x + (int) (body.getVel().getX());
+            int y2 =  y - (int) (body.getVel().getY());
 
 
             if (_showVectors) {
-                drawLineWithArrow(g, x, y, x2,y2,5, 5, Color.blue, Color.blue);
+                drawLineWithArrow(g, x, y, x2,y2,0, 0, Color.blue, Color.blue);
             }
         }
 
@@ -203,7 +202,6 @@ public class Viewer extends JComponent implements SimulatorObserver {
 
     @Override
     public void onDeltaTimeChanged(double dt) {
-        this.dt = dt;
     }
 
     @Override
