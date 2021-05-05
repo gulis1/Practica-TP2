@@ -9,17 +9,17 @@ import java.awt.*;
 public class BodiesTable extends JPanel {
 
     BodiesTableModel model;
+    JTable table;
 
     BodiesTable(Controller ctrl) {
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2), "Bodies", TitledBorder.LEFT, TitledBorder.TOP));
 
-        JTable table = new JTable();
+        table = new JTable();
         table.setVisible(true);
         table.setModel(new BodiesTableModel(ctrl));
 
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setVisible(true);
 
         this.add(scrollPane);
 

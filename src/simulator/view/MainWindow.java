@@ -18,9 +18,19 @@ public class MainWindow extends JFrame {
 
         this.setVisible(true);
         this.setSize(300, 300);
-        this.add(new BodiesTable(_ctrl), BorderLayout.CENTER);
+
         this.add(new ControlPanel(_ctrl),BorderLayout.NORTH);
-        this.add(new StatusBar(_ctrl),BorderLayout.SOUTH);
+
+        JPanel centro = new JPanel();
+        centro.setLayout(new GridLayout(2, 1));
+        centro.add(new BodiesTable(_ctrl));
+        centro.add(new Viewer(_ctrl));
+
+
+        this.add(centro);
+
+        this.add(new StatusBar(_ctrl), BorderLayout.SOUTH);
+
 
 
 
