@@ -122,23 +122,32 @@ public class Viewer extends JComponent implements SimulatorObserver {
         _centerY = getHeight() / 2;
 
         //  draw a cross at center
-        gr.drawLine(_centerX-2, _centerY, _centerX + 2, _centerY);
-        gr.drawLine(_centerX, _centerY-2, _centerX, _centerY + 2);
+        gr.drawLine(_centerX-5, _centerY, _centerX + 5, _centerY);
+        gr.drawLine(_centerX, _centerY-5, _centerX, _centerY + 5);
 
+
+        int bodySize = 11;
 
         for (Body body: _bodies) {
             int x = _centerX + (int) (body.getPos().getX()/_scale);
             int y = _centerY - (int) (body.getPos().getY()/_scale);
-
-            gr.fillOval(x, y, 5  , 5);
-
-            int x2 =  x + (int) (body.getVel().getX());
-            int y2 =  y - (int) (body.getVel().getY());
+            gr.setColor(Color.blue);
+            gr.fillOval(x, y, bodySize  , bodySize);
 
 
-            if (_showVectors)
-                drawLineWithArrow(g, x, y, x2,y2,0, 0, Color.blue, Color.blue);
 
+
+            if (_showVectors) {
+                int x2 =  x + (int) (body.getVel().direction().scale(20).getX());
+                int y2 =  y - (int) (body.getVel().direction().scale(20).getY());
+
+                drawLineWithArrow(g, x, y, x2, y2, 3, 3, Color.green, Color.green);
+
+                int x3 =  x + (int) (body.getForce().direction().scale(20).getX());
+                int y3 =  y - (int) (body.getForce().direction().scale(20).getY());
+
+                drawLineWithArrow(g, x, y, x3, y3, 3, 3, Color.red, Color.red);
+            }
         }
 
             // TODO draw bodies (with vectors if _showVectors is true)

@@ -32,13 +32,21 @@ public class StatusBar extends JPanel implements SimulatorObserver {
         _numOfBodies = new JLabel("0");
 
 
-
-
         this.add(new JLabel("Time:"));
         this.add(_currTime);
+        JSeparator js1= new JSeparator(JSeparator.VERTICAL);
+        js1.setPreferredSize(new Dimension(10,20));
+        js1.setBackground(Color.DARK_GRAY);
+
+        this.add(js1);
         this.add(Box.createRigidArea(new Dimension(180, 0)));
         this.add(new JLabel("Bodies:"));
+
         this.add(_numOfBodies);
+        JSeparator js2= new JSeparator(JSeparator.VERTICAL);
+        js2.setPreferredSize(new Dimension(10,20));
+        js2.setBackground(Color.DARK_GRAY);
+        this.add(js2);
         this.add(Box.createRigidArea(new Dimension(180, 0)));
         this.add(new JLabel("Laws:"));
         this.add(_currLaws);
@@ -50,25 +58,32 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 
     @Override
     public void onRegister(List<Body> bodies, double time, double dt, String fLawsDesc) {
+        SwingUtilities.invokeLater(() ->_currLaws.setText(fLawsDesc));
 
     }
 
     @Override
     public void onReset(List<Body> bodies, double time, double dt, String fLawsDesc) {
-        _currTime.setText(Double.toString(time));
-        _numOfBodies.setText(Integer.toString(bodies.size()));
+
+        SwingUtilities.invokeLater(() -> {
+            _currTime.setText(Double.toString(time));
+            _numOfBodies.setText(Integer.toString(bodies.size()));
+        });
+
+
     }
 
     @Override
     public void onBodyAdded(List<Body> bodies, Body b) {
+        SwingUtilities.invokeLater(() ->_numOfBodies.setText(Integer.toString(bodies.size())));
 
-        _numOfBodies.setText(Integer.toString(bodies.size()));
     }
 
     @Override
     public void onAdvance(List<Body> bodies, double time) {
+        SwingUtilities.invokeLater(() -> _currTime.setText(Double.toString(time)));
 
-        _currTime.setText(Double.toString(time));
+
     }
 
     @Override
@@ -78,7 +93,8 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 
     @Override
     public void onForceLawsChanged(String fLawsDesc) {
-        _currLaws.setText(fLawsDesc);
+        SwingUtilities.invokeLater(() ->_currLaws.setText(fLawsDesc));
+
     }
 }
 

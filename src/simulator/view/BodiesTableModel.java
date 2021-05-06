@@ -4,6 +4,7 @@ import simulator.control.Controller;
 import simulator.model.Body;
 import simulator.model.SimulatorObserver;
 
+import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +62,12 @@ public class BodiesTableModel extends AbstractTableModel implements SimulatorObs
         }
     }
 
+    private void updateTable() {
+        SwingUtilities.invokeLater(this::fireTableStructureChanged);
+
+
+    }
+
     @Override
     public void onRegister(List<Body> bodies, double time, double dt, String fLawsDesc) {
 
@@ -70,20 +77,20 @@ public class BodiesTableModel extends AbstractTableModel implements SimulatorObs
     public void onReset(List<Body> bodies, double time, double dt, String fLawsDesc) {
         _bodies = new ArrayList<>();
         rows = 0;
-        fireTableRowsDeleted(0,0);
+       updateTable();
     }
 
     @Override
     public void onBodyAdded(List<Body> bodies, Body b) {
         _bodies.add(b);
         rows++;
-        fireTableRowsInserted(0, rows);
+        updateTable();
     }
 
     @Override
     public void onAdvance(List<Body> bodies, double time) {
         _bodies = bodies;
-        fireTableDataChanged();
+        updateTable();
     }
 
     @Override

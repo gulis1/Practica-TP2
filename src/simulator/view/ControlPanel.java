@@ -66,9 +66,8 @@ public class ControlPanel extends JToolBar implements SimulatorObserver {
 
         physicsButton = new JButton(new ImageIcon("resources/icons/physics.png"));
         physicsButton.addActionListener(event-> {
-            new ForceLawsDialog(new JFrame(), _ctrl);
+            new ForceLawsDialog( (JFrame) SwingUtilities.getWindowAncestor(this), _ctrl);
         });
-
 
         runButton = new JButton(new ImageIcon("resources/icons/run.png"));
 
@@ -94,23 +93,9 @@ public class ControlPanel extends JToolBar implements SimulatorObserver {
 
         exitButton = new JButton(new ImageIcon("resources/icons/exit.png"));
         exitButton.addActionListener(event -> {
-            // Hemos hecho un poco el gamba aqui
 
-            int dialogResult = JOptionPane.showConfirmDialog(null, "Quieres salir?","Salir", JOptionPane.YES_NO_OPTION);
-
-            if (dialogResult == 0) {
-
-                dialogResult = JOptionPane.showConfirmDialog(null, "Seguro?","Pain-peko", JOptionPane.YES_NO_OPTION);
-
-                if (dialogResult == 0) {
-
-                    dialogResult = JOptionPane.showConfirmDialog(null, "De verdad?",":(", JOptionPane.YES_NO_OPTION);
-
-                    if (dialogResult == 0)
+            JOptionPane.showConfirmDialog((JFrame) SwingUtilities.getWindowAncestor(this), "Quieres salir?","Salir", JOptionPane.YES_NO_OPTION);
                         System.exit(0);
-                }
-            }
-
         });
     }
 
@@ -181,14 +166,24 @@ public class ControlPanel extends JToolBar implements SimulatorObserver {
         }
     }
 
+    public  void setDt(double dt){
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                deltaVaina.setText(""+dt);
+            }
+        });
+    }
+
+
     @Override
     public void onRegister(List<Body> bodies, double time, double dt, String fLawsDesc) {
-
+        setDt(dt);
     }
 
     @Override
     public void onReset(List<Body> bodies, double time, double dt, String fLawsDesc) {
-
+        setDt(dt);
     }
 
     @Override
@@ -203,7 +198,7 @@ public class ControlPanel extends JToolBar implements SimulatorObserver {
 
     @Override
     public void onDeltaTimeChanged(double dt) {
-
+        setDt(dt);
     }
 
     @Override

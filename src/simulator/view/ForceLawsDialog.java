@@ -3,12 +3,10 @@ package simulator.view;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import simulator.control.Controller;
-import simulator.misc.Vector2D;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -20,7 +18,7 @@ public class ForceLawsDialog extends JDialog {
     Controller controller;
 
     public ForceLawsDialog (JFrame parent, Controller controller) {
-        super();
+        super(parent, "Force Laws Selection", true);
         this.listaDeLeyes = controller.getForceLawsInfo();
         this.controller = controller;
         init(parent);
@@ -29,12 +27,11 @@ public class ForceLawsDialog extends JDialog {
 
     public void init(JFrame padre) {
 
-        JDialog setforces = new JDialog(padre, "Force Laws Selection", true);
-        setforces.setSize(500, 600);
-        setforces.setLayout(new BoxLayout(setforces.getContentPane(), BoxLayout.Y_AXIS));
+        this.setSize(500, 600);
+        this.setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
 
         // Descripcion.
-        setforces.add(new JLabel("Select a force law  and provide values for the parameters in the Value column (default values are used for parameters with no value)"));
+        this.add(new JLabel("Select a force law  and provide values for the parameters in the Value column (default values are used for parameters with no value)"));
 
         // Tabla de leyes
         ModeloTablaLeyes modelo = new ModeloTablaLeyes();
@@ -50,7 +47,7 @@ public class ForceLawsDialog extends JDialog {
 
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setVisible(true);
-        setforces.add(scrollPane);
+        this.add(scrollPane);
 
 
         // Panel de abajo
@@ -66,7 +63,7 @@ public class ForceLawsDialog extends JDialog {
         comboBox.addActionListener(event -> modelo.setRows(listaDeLeyes.get(comboBox.getSelectedIndex())));
 
         JButton cancel = new JButton("cancel");
-        cancel.addActionListener((event) -> padre.dispose());
+        cancel.addActionListener((event) -> this.dispose());
 
         JButton ok = new JButton("OK");
         ok.addActionListener((event)-> {
@@ -90,7 +87,7 @@ public class ForceLawsDialog extends JDialog {
             }
 
             controller.setForceLaws(ley);
-            padre.dispose();
+            this.dispose();
         });
 
         panelAbajo.add(new JLabel("Force Law: "));
@@ -99,9 +96,8 @@ public class ForceLawsDialog extends JDialog {
         panelAbajo.add(ok);
 
 
-        setforces.add(panelAbajo);
-
-        setforces.setVisible(true);
+        this.add(panelAbajo);
+        this.setVisible(true);
 
     }
 
