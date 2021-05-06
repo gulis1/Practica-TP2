@@ -36,8 +36,10 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 
         this.add(new JLabel("Time:"));
         this.add(_currTime);
+        this.add(Box.createRigidArea(new Dimension(180, 0)));
         this.add(new JLabel("Bodies:"));
         this.add(_numOfBodies);
+        this.add(Box.createRigidArea(new Dimension(180, 0)));
         this.add(new JLabel("Laws:"));
         this.add(_currLaws);
 

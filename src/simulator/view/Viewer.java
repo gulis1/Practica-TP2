@@ -136,9 +136,9 @@ public class Viewer extends JComponent implements SimulatorObserver {
             int y2 =  y - (int) (body.getVel().getY());
 
 
-            if (_showVectors) {
+            if (_showVectors)
                 drawLineWithArrow(g, x, y, x2,y2,0, 0, Color.blue, Color.blue);
-            }
+
         }
 
             // TODO draw bodies (with vectors if _showVectors is true)
