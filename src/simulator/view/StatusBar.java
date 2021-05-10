@@ -34,14 +34,14 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 
         this.add(new JLabel("Time:"));
         this.add(_currTime);
+        
         JSeparator js1= new JSeparator(JSeparator.VERTICAL);
         js1.setPreferredSize(new Dimension(10,20));
         js1.setBackground(Color.DARK_GRAY);
-
         this.add(js1);
         this.add(Box.createRigidArea(new Dimension(180, 0)));
-        this.add(new JLabel("Bodies:"));
 
+        this.add(new JLabel("Bodies:"));
         this.add(_numOfBodies);
         JSeparator js2= new JSeparator(JSeparator.VERTICAL);
         js2.setPreferredSize(new Dimension(10,20));

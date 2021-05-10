@@ -31,12 +31,5 @@ public class MainWindow extends JFrame {
 
         this.add(new StatusBar(_ctrl), BorderLayout.SOUTH);
 
-
-
-
-// TODO complete this method to build the GUI
-// ..
     }
-// other private/protected methods
-// ...
 }

@@ -1,19 +1,15 @@
 package simulator.view;
 
 
-import org.json.JSONObject;
 import simulator.control.Controller;
 import simulator.model.Body;
 import simulator.model.SimulatorObserver;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.table.AbstractTableModel;
 import java.awt.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class ControlPanel extends JToolBar implements SimulatorObserver {
@@ -27,8 +23,8 @@ public class ControlPanel extends JToolBar implements SimulatorObserver {
     private JButton stopButton;
     private JButton exitButton;
 
-    private JSpinner fidgetSpinner;
-    private JTextField deltaVaina;
+    private JSpinner Spinner;
+    private JTextField deltaText;
 
 
     ControlPanel(Controller ctrl) {
@@ -37,7 +33,6 @@ public class ControlPanel extends JToolBar implements SimulatorObserver {
         initGUI();
         _ctrl.addObserver(this);
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-
 
     }
 
@@ -81,9 +76,9 @@ public class ControlPanel extends JToolBar implements SimulatorObserver {
             _stopped=false;
 
 
-            _ctrl.setDeltaTime(Double.parseDouble(deltaVaina.getText()));
+            _ctrl.setDeltaTime(Double.parseDouble(deltaText.getText()));
 
-            run_sim((Integer)fidgetSpinner.getValue());
+            run_sim((Integer) Spinner.getValue());
 
         });
 
@@ -100,12 +95,12 @@ public class ControlPanel extends JToolBar implements SimulatorObserver {
     }
 
     private void initSpinnerAndTextField(){
-        fidgetSpinner = new JSpinner(new SpinnerNumberModel(0, 0, null, 1000));
-        fidgetSpinner.setMaximumSize(new Dimension(600, 30));
+        Spinner = new JSpinner(new SpinnerNumberModel(0, 0, null, 1000));
+        Spinner.setMaximumSize(new Dimension(600, 30));
 
 
-        deltaVaina = new JTextField("2500.0");
-        deltaVaina.setMaximumSize(new Dimension(300 , 30));
+        deltaText = new JTextField("2500.0");
+        deltaText.setMaximumSize(new Dimension(300 , 30));
 
     }
 
@@ -121,18 +116,14 @@ public class ControlPanel extends JToolBar implements SimulatorObserver {
 
         this.add(new JLabel("Steps:"));
 
-        this.add(fidgetSpinner);
+        this.add(Spinner);
         this.add(new JLabel("Delta-Time:"));
-        this.add(deltaVaina);
+        this.add(deltaText);
 
         this.add(Box.createGlue());
         this.add(exitButton);
         
     }
-
-    // other private/protected methods
-// ...
-
 
 
     private void run_sim(int n) {
@@ -170,7 +161,7 @@ public class ControlPanel extends JToolBar implements SimulatorObserver {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                deltaVaina.setText(""+dt);
+                deltaText.setText(""+dt);
             }
         });
     }

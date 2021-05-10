@@ -19,10 +19,11 @@ public class Viewer extends JComponent implements SimulatorObserver {
     // ...
     private int _centerX;
     private int _centerY;
-    private double _scale;
+    private Double _scale;
     private List<Body> _bodies;
     private boolean _showHelp;
     private boolean _showVectors;
+
 
 
     Viewer(Controller ctrl) {
@@ -105,6 +106,9 @@ public class Viewer extends JComponent implements SimulatorObserver {
 
             }
         });
+
+
+
     }
 
     @Override
@@ -117,13 +121,17 @@ public class Viewer extends JComponent implements SimulatorObserver {
                 RenderingHints.VALUE_ANTIALIAS_ON);
         gr.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+
+
         // calculate the center
         _centerX = getWidth() / 2;
         _centerY = getHeight() / 2;
 
+        // TODO draw bodies (with vectors if _showVectors is true)
+
         //  draw a cross at center
         gr.drawLine(_centerX-5, _centerY, _centerX + 5, _centerY);
-        gr.drawLine(_centerX, _centerY-5, _centerX, _centerY + 5);
+        gr.drawLine(_centerX, _centerY-5, _centerX, _centerY+5);
 
 
         int bodySize = 11;
@@ -133,7 +141,7 @@ public class Viewer extends JComponent implements SimulatorObserver {
             int y = _centerY - (int) (body.getPos().getY()/_scale);
             gr.setColor(Color.blue);
             gr.fillOval(x, y, bodySize  , bodySize);
-
+            gr.drawString(body.getId(),x,y-5);
 
 
 
@@ -141,17 +149,24 @@ public class Viewer extends JComponent implements SimulatorObserver {
                 int x2 =  x + (int) (body.getVel().direction().scale(20).getX());
                 int y2 =  y - (int) (body.getVel().direction().scale(20).getY());
 
-                drawLineWithArrow(g, x, y, x2, y2, 3, 3, Color.green, Color.green);
+                drawLineWithArrow(g, x+5, y+5, x2+5, y2+5, 3, 3, Color.green, Color.green);
 
                 int x3 =  x + (int) (body.getForce().direction().scale(20).getX());
                 int y3 =  y - (int) (body.getForce().direction().scale(20).getY());
 
-                drawLineWithArrow(g, x, y, x3, y3, 3, 3, Color.red, Color.red);
+                drawLineWithArrow(g, x+5, y+5, x3+5, y3+5, 3, 3, Color.red, Color.red);
             }
         }
 
-            // TODO draw bodies (with vectors if _showVectors is true)
+
             // TODO draw help if _showHelp is true
+          if(_showHelp)  {
+
+              gr.setColor(Color.red);
+              gr.drawString("h: toggle help, v: toggle vector, +:zoom-in, -:zoom-out, =:fit",12,30);
+              gr.drawString( "scaling ratio: " +_scale.toString(),12,45);
+          }
+
     }
 
     // other private/protected methods

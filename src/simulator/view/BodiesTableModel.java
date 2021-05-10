@@ -36,30 +36,28 @@ public class BodiesTableModel extends AbstractTableModel implements SimulatorObs
     @Override
     public String getColumnName(int column) {
 
-        switch(column) {
-
-            case 0: return "Id";
-            case 1: return "Mass";
-            case 2: return "Position";
-            case 3: return "Velocity";
-            case 4: return "Force";
-            default: return null;
-        }
+        return switch (column) {
+            case 0 -> "Id";
+            case 1 -> "Mass";
+            case 2 -> "Position";
+            case 3 -> "Velocity";
+            case 4 -> "Force";
+            default -> null;
+        };
 
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
 
-        switch(columnIndex) {
-
-            case 0: return _bodies.get(rowIndex).getId();
-            case 1: return _bodies.get(rowIndex).getMass();
-            case 2: return _bodies.get(rowIndex).getPos();
-            case 3: return _bodies.get(rowIndex).getVel();
-            case 4: return _bodies.get(rowIndex).getForce();
-            default: return null;
-        }
+        return switch (columnIndex) {
+            case 0 -> _bodies.get(rowIndex).getId();
+            case 1 -> _bodies.get(rowIndex).getMass();
+            case 2 -> _bodies.get(rowIndex).getPos();
+            case 3 -> _bodies.get(rowIndex).getVel();
+            case 4 -> _bodies.get(rowIndex).getForce();
+            default -> null;
+        };
     }
 
     private void updateTable() {
@@ -102,6 +100,4 @@ public class BodiesTableModel extends AbstractTableModel implements SimulatorObs
     public void onForceLawsChanged(String fLawsDesc) {
 
     }
-// SimulatorObserver methods
-// ...
 }
