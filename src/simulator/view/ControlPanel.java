@@ -89,8 +89,8 @@ public class ControlPanel extends JToolBar implements SimulatorObserver {
         exitButton = new JButton(new ImageIcon("resources/icons/exit.png"));
         exitButton.addActionListener(event -> {
 
-            JOptionPane.showConfirmDialog((JFrame) SwingUtilities.getWindowAncestor(this), "Quieres salir?","Salir", JOptionPane.YES_NO_OPTION);
-                        System.exit(0);
+            if(JOptionPane.showConfirmDialog((JFrame) SwingUtilities.getWindowAncestor(this), "Quieres salir?","Salir", JOptionPane.YES_NO_OPTION) == 0)
+                System.exit(0);
         });
     }
 
