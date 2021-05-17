@@ -40,6 +40,22 @@ public class Controller {
         
     }
 
+    public void run3(int n, long delay) {
+
+        for (int i = 0; i < n; i++) {
+
+            simulator.advance();
+
+            try {
+                Thread.sleep(delay);
+            }
+
+            catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+
+    }
 
     public void run(int n, OutputStream out, InputStream expOut, StateComparator cmp) throws DiferentStatesException {
 

@@ -24,7 +24,10 @@ public class ControlPanel extends JToolBar implements SimulatorObserver {
     private JButton exitButton;
 
     private JSpinner Spinner;
+    private JSpinner SpinnerD;
     private JTextField deltaText;
+
+    private volatile Thread _thread;
 
 
     ControlPanel(Controller ctrl) {
@@ -75,10 +78,13 @@ public class ControlPanel extends JToolBar implements SimulatorObserver {
             exitButton.setEnabled(false);
             _stopped=false;
 
-
             _ctrl.setDeltaTime(Double.parseDouble(deltaText.getText()));
 
-            run_sim((Integer) Spinner.getValue());
+
+            _thread = new Thread(() ->{
+                _ctrl.run3((Integer) Spinner.getValue(), (Long) SpinnerD.getValue());
+
+            });
 
         });
 
@@ -102,6 +108,10 @@ public class ControlPanel extends JToolBar implements SimulatorObserver {
         deltaText = new JTextField("2500.0");
         deltaText.setMaximumSize(new Dimension(300 , 30));
 
+
+        SpinnerD = new JSpinner(new SpinnerNumberModel(0, 0, 1000, 1));
+        SpinnerD.setMaximumSize(new Dimension(600, 30));
+
     }
 
     private void initGUI() {
@@ -114,9 +124,13 @@ public class ControlPanel extends JToolBar implements SimulatorObserver {
         this.add(runButton);
         this.add(stopButton);
 
-        this.add(new JLabel("Steps:"));
+        this.add(new JLabel("Delay"));
+        this.add(SpinnerD);
 
+
+        this.add(new JLabel("Steps:"));
         this.add(Spinner);
+
         this.add(new JLabel("Delta-Time:"));
         this.add(deltaText);
 
