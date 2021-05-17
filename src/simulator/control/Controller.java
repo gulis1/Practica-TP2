@@ -40,9 +40,10 @@ public class Controller {
         
     }
 
-    public void run3(int n, long delay) {
+    public void run3(Integer n, int delay) {
 
-        for (int i = 0; i < n; i++) {
+
+        while (n != 0 && !Thread.currentThread().isInterrupted()) {
 
             simulator.advance();
 
@@ -53,6 +54,8 @@ public class Controller {
             catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
+
+            n--;
         }
 
     }
@@ -106,12 +109,7 @@ public class Controller {
 
     }
 
-    public void run(int n) {
 
-        for (int i= 0; i<n; i++)
-            simulator.advance();
-
-    }
 
     public void reset() {
         simulator.reset();

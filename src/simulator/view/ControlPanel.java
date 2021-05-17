@@ -78,18 +78,31 @@ public class ControlPanel extends JToolBar implements SimulatorObserver {
             exitButton.setEnabled(false);
             _stopped=false;
 
+
             _ctrl.setDeltaTime(Double.parseDouble(deltaText.getText()));
 
 
             _thread = new Thread(() ->{
-                _ctrl.run3((Integer) Spinner.getValue(), (Long) SpinnerD.getValue());
+                _ctrl.run3((Integer) Spinner.getValue(), (int) SpinnerD.getValue());
+                runButton.setEnabled(true);
+                openButton.setEnabled(true);
+                physicsButton.setEnabled(true);
+                exitButton.setEnabled(true);
 
             });
-
+            _thread.start();
         });
 
         stopButton = new JButton(new ImageIcon("resources/icons/stop.png"));
-        stopButton.addActionListener(event -> _stopped = true);
+        stopButton.addActionListener(event -> {
+            _thread.interrupt();
+            _thread = null;
+
+            runButton.setEnabled(true);
+            openButton.setEnabled(true);
+            physicsButton.setEnabled(true);
+            exitButton.setEnabled(true);
+        });
 
 
         exitButton = new JButton(new ImageIcon("resources/icons/exit.png"));
@@ -139,37 +152,6 @@ public class ControlPanel extends JToolBar implements SimulatorObserver {
         
     }
 
-
-    private void run_sim(int n) {
-        if (n > 0 && !_stopped) {
-
-            try {
-                _ctrl.run(1);
-            }
-
-            catch (Exception e) {
-                // TODO show the error in a dialog box
-                // TODO enable all buttons
-                _stopped = true;
-                return;
-            }
-
-            SwingUtilities.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    run_sim(n - 1);
-                }
-            });
-        }
-        else {
-            _stopped = true;
-
-            runButton.setEnabled(true);
-            openButton.setEnabled(true);
-            physicsButton.setEnabled(true);
-            exitButton.setEnabled(true);
-        }
-    }
 
     public  void setDt(double dt){
         SwingUtilities.invokeLater(new Runnable() {
