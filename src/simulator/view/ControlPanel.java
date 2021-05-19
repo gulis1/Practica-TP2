@@ -78,7 +78,14 @@ public class ControlPanel extends JToolBar implements SimulatorObserver {
 
             _ctrl.setDeltaTime(Double.parseDouble(deltaText.getText()));
 
-            run_sim((Integer) Spinner.getValue());
+            try {
+                run_sim((Integer) Spinner.getValue());
+            }
+
+            catch (Exception e) {
+                JOptionPane.showMessageDialog(null,e.getMessage());
+
+            }
 
         });
 
@@ -89,7 +96,7 @@ public class ControlPanel extends JToolBar implements SimulatorObserver {
         exitButton = new JButton(new ImageIcon("resources/icons/exit.png"));
         exitButton.addActionListener(event -> {
 
-            if(JOptionPane.showConfirmDialog((JFrame) SwingUtilities.getWindowAncestor(this), "Quieres salir?","Salir", JOptionPane.YES_NO_OPTION) == 0)
+            if(JOptionPane.showConfirmDialog(SwingUtilities.getWindowAncestor(this), "Quieres salir?","Salir", JOptionPane.YES_NO_OPTION) == 0)
                 System.exit(0);
         });
     }

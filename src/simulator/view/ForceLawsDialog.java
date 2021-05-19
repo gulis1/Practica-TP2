@@ -1,6 +1,7 @@
 package simulator.view;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import simulator.control.Controller;
 
@@ -161,15 +162,9 @@ public class ForceLawsDialog extends JDialog {
                     if (!rows.get(rowIndex).has("Value"))
                         return null;
 
-                    else try {
-                        return Double.parseDouble(rows.get(rowIndex).getString("Value"));
-                    }
+                    else
+                        return rows.get(rowIndex).get("Value");
 
-                    catch (NumberFormatException e) {
-                        // Si el valor introducido en la tabla es un vector 2d se entra aqui
-                        System.out.println("saf");
-                        return new JSONArray(rows.get(rowIndex).getString("Value"));
-                    }
 
                 }
                 case 2 :  return rows.get(rowIndex).getString("Descripcion");
@@ -198,7 +193,23 @@ public class ForceLawsDialog extends JDialog {
 
         @Override
         public void setValueAt(Object value, int row, int col) {
-            rows.get(row).put("Value", value);
+
+            try {
+                rows.get(row).put("Value", Double.parseDouble(value.toString()));
+            }
+
+            catch (NumberFormatException e) {
+                // Si el valor introducido en la tabla es un vector 2d se entra aqui
+                try {
+                    rows.get(row).put("Value", new JSONArray(value.toString()));
+                }
+
+                catch (JSONException e2){
+                    JOptionPane.showMessageDialog(null,"The introduced value is incorrect.");
+                }
+
+            }
+
             fireTableCellUpdated(row, col);
         }
 
