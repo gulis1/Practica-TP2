@@ -83,7 +83,14 @@ public class ControlPanel extends JToolBar implements SimulatorObserver {
 
 
             _thread = new Thread(() ->{
-                _ctrl.run3((Integer) Spinner.getValue(), (int) SpinnerD.getValue());
+
+                try {
+                    _ctrl.run3((Integer) Spinner.getValue(), (int) SpinnerD.getValue());
+                }
+                catch (Exception e){
+                    JOptionPane.showMessageDialog(null,e.getMessage());
+                }
+
                 runButton.setEnabled(true);
                 openButton.setEnabled(true);
                 physicsButton.setEnabled(true);
@@ -108,7 +115,7 @@ public class ControlPanel extends JToolBar implements SimulatorObserver {
         exitButton = new JButton(new ImageIcon("resources/icons/exit.png"));
         exitButton.addActionListener(event -> {
 
-            if(JOptionPane.showConfirmDialog((JFrame) SwingUtilities.getWindowAncestor(this), "Quieres salir?","Salir", JOptionPane.YES_NO_OPTION) == 0)
+            if(JOptionPane.showConfirmDialog(SwingUtilities.getWindowAncestor(this), "Quieres salir?","Salir", JOptionPane.YES_NO_OPTION) == 0)
                 System.exit(0);
         });
     }
